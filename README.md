@@ -11,6 +11,9 @@
 
 * Maven 3
 * Tomcat 7
+
+
+Test
 * a local MySQL database (visaCenter) with user **root** and password **root** (the tables a created after the first start)
 
 
