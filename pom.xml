@@ -10,5 +10,6 @@
     <module>web</module>    
     <module>aps</module>
     <module>core</module>
+    <module>cor</module>
   </modules>
 </project>
