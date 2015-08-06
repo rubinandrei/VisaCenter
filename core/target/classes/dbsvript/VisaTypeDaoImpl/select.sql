@@ -1,0 +1,1 @@
+Select.all=select * from visa_type;

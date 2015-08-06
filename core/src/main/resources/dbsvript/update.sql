@@ -1,0 +1,1 @@
+select.All=Select * from vise

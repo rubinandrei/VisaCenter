@@ -11,5 +11,6 @@
     <module>aps</module>
     <module>core</module>
     <module>cor</module>
+    <module>Web-admin</module>
   </modules>
 </project>
