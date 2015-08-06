@@ -19,6 +19,32 @@ USE `visacenter`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `availablereg`
+--
+
+DROP TABLE IF EXISTS `availablereg`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `availablereg` (
+  `ar_id` int(11) NOT NULL AUTO_INCREMENT,
+  `ar_count` bit(19) DEFAULT NULL,
+  `ar_day` date DEFAULT NULL,
+  PRIMARY KEY (`ar_id`),
+  UNIQUE KEY `ar_day_UNIQUE` (`ar_day`)
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `availablereg`
+--
+
+LOCK TABLES `availablereg` WRITE;
+/*!40000 ALTER TABLE `availablereg` DISABLE KEYS */;
+INSERT INTO `availablereg` VALUES (1,'\0\0d','2015-08-03'),(2,'\0\0d','2015-08-04'),(3,'\0\0d','2015-08-05'),(4,'\0\0d','2015-08-06'),(5,'\0\0d','2015-08-07'),(6,'\0\0d','2015-08-10'),(7,'\0\0d','2015-08-11'),(8,'\0\0d','2015-08-12'),(9,'\0\0d','2015-08-13'),(10,'\0\0d','2015-08-14'),(11,'\0\0d','2015-08-17'),(12,'\0\0d','2015-08-18'),(13,'\0\0d','2015-08-19'),(14,'\0\0d','2015-08-20'),(15,'\0\0d','2015-08-21'),(16,'\0\0d','2015-08-24'),(17,'\0\0d','2015-08-25'),(18,'\0\0d','2015-08-26'),(19,'\0\0d','2015-08-27'),(20,'\0\0d','2015-08-28'),(21,'\0\0d','2015-08-31'),(32,'\0\0\0','2015-08-01'),(33,'\0\0\0','2015-08-02'),(34,'\0\0\0','2015-08-08'),(35,'\0\0\0','2015-08-09'),(36,'\0\0\0','2015-08-15'),(37,'\0\0\0','2015-08-16'),(38,'\0\0\0','2015-08-22'),(39,'\0\0\0','2015-08-23'),(40,'\0\0\0','2015-08-29'),(41,'\0\0\0','2015-08-30');
+/*!40000 ALTER TABLE `availablereg` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `declarpassport`
 --
 
@@ -79,6 +105,31 @@ INSERT INTO `regisrtform` VALUES (1,'2015-07-31 17:08:01',1,'Andrew.a.Rubin@gmai
 UNLOCK TABLES;
 
 --
+-- Table structure for table `systemusers`
+--
+
+DROP TABLE IF EXISTS `systemusers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `systemusers` (
+  `su_id` int(10) unsigned NOT NULL,
+  `su_login` varchar(45) DEFAULT NULL,
+  `su_password` varchar(255) DEFAULT NULL,
+  `su_admintyp` int(11) DEFAULT NULL,
+  PRIMARY KEY (`su_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `systemusers`
+--
+
+LOCK TABLES `systemusers` WRITE;
+/*!40000 ALTER TABLE `systemusers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `systemusers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `visa`
 --
 
@@ -128,7 +179,7 @@ CREATE TABLE `visa_type` (
   PRIMARY KEY (`vt_id`),
   UNIQUE KEY `vt_id_UNIQUE` (`vt_id`),
   UNIQUE KEY `vt_name_UNIQUE` (`vt_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,13 +188,9 @@ CREATE TABLE `visa_type` (
 
 LOCK TABLES `visa_type` WRITE;
 /*!40000 ALTER TABLE `visa_type` DISABLE KEYS */;
-INSERT INTO `visa_type` VALUES (1,'Разовая 90 дней',90,0,NULL,65,1,'C'),(2,'Разовая 120 дней',120,0,NULL,100,1,'D');
+INSERT INTO `visa_type` VALUES (1,'Разовая 90 дней',90,0,NULL,65,1,'C'),(2,'Разовая 120 дней',120,0,NULL,100,1,'D'),(3,'Name_for test11',300,1,NULL,61,1,'test');
 /*!40000 ALTER TABLE `visa_type` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping events for database 'visacenter'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -154,4 +201,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-07-31 17:14:22
+-- Dump completed on 2015-08-06 17:06:03

@@ -11,6 +11,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import by.dbconection.MySQLconnection;
 import by.model.AbstractModel;
 
@@ -18,7 +20,7 @@ import by.model.AbstractModel;
 
 public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements AbstractDAO<T> {	
 	
-	 
+	private static final Logger LOG = Logger.getLogger(AbstractDaoImpl.class);	 
 	
 	private Connection conn = null;
 
@@ -51,9 +53,9 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
 			
 		} catch (SQLException e) {
 			
-			e.printStackTrace();
+			LOG.error("ERROR!: ", e.fillInStackTrace());
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("ERROR!: ", e.fillInStackTrace());
 		}
 		
 		return resultSet;
@@ -84,9 +86,10 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
 			
 		} catch (SQLException e) {
 			
-			e.printStackTrace();
+			LOG.error("ERROR!: ", e.fillInStackTrace());
+			
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("ERROR!: ", e.fillInStackTrace());
 		}
 		
 		return SaveId;
@@ -110,7 +113,7 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
 				
 		
 		}catch (SQLException e) {			
-			e.printStackTrace();
+			LOG.error("ERROR!: ", e.fillInStackTrace());
 		}		
 		
 			return getResults(t.getClass().getMethods(),result,t);
@@ -166,11 +169,11 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
 				  
 			  }
 		} catch (SQLException e){
-			e.printStackTrace();		
+			LOG.error("ERROR!: ", e.fillInStackTrace());
 		}catch (InstantiationException e){
-			e.printStackTrace();
+			LOG.error("ERROR!: ", e.fillInStackTrace());
 		}catch (IllegalAccessException e){			
-			e.printStackTrace();
+			LOG.error("ERROR!: ", e.fillInStackTrace());
 		}
     	  return daoList;
       }
@@ -188,7 +191,7 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
 	    		resultSet = preparedStatement.executeUpdate();
 	    		
 			}catch (SQLException e) {		
-		              e.printStackTrace();
+				LOG.error("ERROR!: ", e.fillInStackTrace());
 			} 
 	
         	return resultSet;
@@ -208,7 +211,7 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
   	    		resultSet = preparedStatement.executeUpdate();
   	    		
   			}catch (SQLException e) {		
-  		              e.printStackTrace();
+  				LOG.error("ERROR!: ", e.fillInStackTrace());
   			} 
   	
           	return resultSet;
