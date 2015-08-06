@@ -20,7 +20,7 @@ public class App
     	vtp.setVt_action_type(1);
     	vtp.setVt_actionday_count(300);
     	vtp.setVt_cost(60.56);    	
-    	vtp.setVt_name("Name_for test");
+    	vtp.setVt_name("Name_for test11");
     	vtp.setVt_short_name("test");
     	vtp.setVt_status(1);
     	
