@@ -1,5 +1,15 @@
 package by.model;
 
-public class Systemusers {
+import java.util.List;
+
+public class Systemusers extends AbstractModel {
+
+	
+	
+	@Override
+	public List<Object> getAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
