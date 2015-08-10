@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
+import org.apache.commons.lang3.Validate;
 import org.apache.log4j.Logger;
 
 import by.dbconection.MySQLconnection;
@@ -33,13 +33,19 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
 
 
 	protected  synchronized int add(String query,List<T> value ) {		
-		PreparedStatement preparedStatement = null;
-		int resultSet = -1;		
+		PreparedStatement preparedStatement = null;	
+		
+		Validate.notNull(value, "value is not be null");
+		
+		int resultSet = -1;
+		
 		try {
 			preparedStatement = conn.prepareStatement(query);
 		    	for(T t:value)
-				{		    		
+				{  		
+		    		    	
 		    		List<?> listValue = t.getAll();
+		    		Validate.noNullElements(listValue, t.getClass().getName()+" shoud be not null of elements");
 		    		int i=0;
 		    		for(Object object:listValue){
 		    			i++;		    			
@@ -62,6 +68,7 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
     }
 	// castom insert 
 	protected  synchronized int add(String query, Object[] conditionsKey) {		
+		Validate.notNull(conditionsKey, "conditionsKey is not be null");
 		PreparedStatement preparedStatement = null;
 		int resultSet = -1;
 		int SaveId=0;
@@ -96,9 +103,11 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
     }
 	
 
-	protected synchronized List <T> get(T t,Object[] conditionsKey,String query  ) {
+	protected synchronized List <T> get(final T t,Object[] conditionsKey,String query  ) {
 		 
       	ResultSet result = null;		
+      	Validate.notNull(t, "Model is not be null");
+      	Validate.notNull(conditionsKey, "conditionsKey is not be null");
 		PreparedStatement preparedStatement;		
 			try{
 				preparedStatement = conn.prepareStatement(query);
@@ -179,6 +188,7 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
       }
       
 	protected synchronized int delete(Object[] conditionsKey, String query){
+		Validate.notNull(conditionsKey,"Model is not be null");
         PreparedStatement preparedStatement = null;
         int resultSet = -1;	
         try {
@@ -199,6 +209,7 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
   	  }      
       
       protected synchronized int update(Object[] conditionsKey, String query){
+    	  Validate.notNull(conditionsKey,"Model is not be null");
           PreparedStatement preparedStatement = null;
           int resultSet = -1;	
           try {
