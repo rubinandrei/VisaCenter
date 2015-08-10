@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 public class Visatype extends AbstractModel implements Serializable,Cloneable {
 	
 	private static final long serialVersionUID = -5334937414764306087L;

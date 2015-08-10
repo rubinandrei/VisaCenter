@@ -4,20 +4,37 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import by.dao.DaoStatment;
+import by.dao.UserDaoImpl;
 import by.dao.VisaTypeDaoImpl;
-import by.model.Visatype;
+import by.model.SystemUsers;
 
 public class App 
 {
     public static void main( String[] args ) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SecurityException, IOException
     {
-    	System.out.println();
-    	VisaTypeDaoImpl vt = new VisaTypeDaoImpl();
+    	UserDaoImpl vt = new UserDaoImpl();
     	
-    	Visatype vtp = new Visatype();
-    	List<Visatype> listVt = new ArrayList<>();
+    	//SystemUsers vtp = new SystemUsers();
+    	//vtp.setSu_admintyp(1);
+    	//vtp.setSu_login("arubin");
+    	//vtp.setSu_password("rubin"+vtp.getSu_login());
     	
-    	listVt.add(vtp);
+    	List<SystemUsers> listUser = new ArrayList<>();
+    	
+    	//listUser.add(vtp);
+    	
+    	
+    //	vt.saveCustomRecord("Select.all","andrei", "rubin"+"andrei", 1);
+    	listUser = vt.getRecord("Select.admin","andrei", "rubin"+"11andrei");
+    	/*for(SystemUsers su: listUser ){
+    		System.out.println(su.getSu_login());
+    	}*/
+    	
+    	if(listUser.isEmpty()){
+    		System.out.println("Yes");
+    	}
+ 
     /*	
     	vtp.setVt_action_type(1);
     	vtp.setVt_actionday_count(300);
@@ -31,7 +48,7 @@ public class App
     	
     	
     
-		vt.saveRecord(listVt, "insert.allparam");
+		//vt.saveRecord(listVt, "insert.allparam");
 		/*
     	for(Visatype vt1: vt.getRecord("Select.all")){
     	
