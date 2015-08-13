@@ -1,1 +1,2 @@
-insert.allparam = INSERT INTO visa_type(vt_action_type,vt_actionday_count,vt_status,vt_cost,vt_name,vt_short_name)VALUES(?,?,?,?,?,?)
+insert.allparam = INSERT INTO regisrtform (rt_visatype,rf_datareg,rf_declarant_email,rf_declarant_password,rf_dp_id VALUES(?,?,?,MD5(?),?)
+

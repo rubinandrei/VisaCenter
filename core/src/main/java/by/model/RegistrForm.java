@@ -28,6 +28,8 @@ public class RegistrForm extends AbstractModel implements Serializable,Cloneable
 	private String rf_declarant_email;
 	private String rf_declarant_password;
 	private int rf_status;
+	private int rf_dp_id;
+	
 	
 	
 
@@ -38,7 +40,7 @@ public class RegistrForm extends AbstractModel implements Serializable,Cloneable
 		return dp_id;
 	}
 
-
+	@FieldName(fieldname="dp_id")
 	public void setDp_id(int dp_id) {
 		this.dp_id = dp_id;
 	}
@@ -48,7 +50,7 @@ public class RegistrForm extends AbstractModel implements Serializable,Cloneable
 		return dp_passport_indent_nb;
 	}
 
-
+	@FieldName(fieldname="dp_passport_indent_nb")
 	public void setDp_passport_indent_nb(String dp_passport_indent_nb) {
 		this.dp_passport_indent_nb = dp_passport_indent_nb;
 	}
@@ -58,7 +60,7 @@ public class RegistrForm extends AbstractModel implements Serializable,Cloneable
 		return dp_first_name;
 	}
 
-
+	@FieldName(fieldname="dp_first_name")
 	public void setDp_first_name(String dp_first_name) {
 		this.dp_first_name = dp_first_name;
 	}
@@ -68,7 +70,7 @@ public class RegistrForm extends AbstractModel implements Serializable,Cloneable
 		return dp_second_name;
 	}
 
-
+	@FieldName(fieldname="dp_second_name")
 	public void setDp_second_name(String dp_second_name) {
 		this.dp_second_name = dp_second_name;
 	}
@@ -78,7 +80,7 @@ public class RegistrForm extends AbstractModel implements Serializable,Cloneable
 		return dp_passport_nb;
 	}
 
-
+	@FieldName(fieldname="dp_passport_nb")
 	public void setDp_passport_nb(String dp_passport_nb) {
 		this.dp_passport_nb = dp_passport_nb;
 	}
@@ -88,7 +90,7 @@ public class RegistrForm extends AbstractModel implements Serializable,Cloneable
 		return dp_date_birth;
 	}
 
-
+	@FieldName(fieldname="dp_date_birth")
 	public void setDp_date_birth(String dp_date_birth) {
 		this.dp_date_birth = dp_date_birth;
 	}
@@ -98,7 +100,7 @@ public class RegistrForm extends AbstractModel implements Serializable,Cloneable
 		return dp_passport_valid_data;
 	}
 
-
+	@FieldName(fieldname="dp_passport_valid_data")
 	public void setDp_passport_valid_data(String dp_passport_valid_data) {
 		this.dp_passport_valid_data = dp_passport_valid_data;
 	}
@@ -120,7 +122,7 @@ public class RegistrForm extends AbstractModel implements Serializable,Cloneable
 		return vt_name;
 	}
 
-
+	@FieldName(fieldname="vt_name")
 	public void setVt_name(String vt_name) {
 		this.vt_name = vt_name;
 	}
@@ -130,7 +132,7 @@ public class RegistrForm extends AbstractModel implements Serializable,Cloneable
 		return vt_actionday_count;
 	}
 
-
+	@FieldName(fieldname="vt_actionday_count")
 	public void setVt_actionday_count(int vt_actionday_count) {
 		this.vt_actionday_count = vt_actionday_count;
 	}
@@ -140,7 +142,7 @@ public class RegistrForm extends AbstractModel implements Serializable,Cloneable
 		return vt_status;
 	}
 
-
+	@FieldName(fieldname="vt_status")
 	public void setVt_status(int vt_status) {
 		this.vt_status = vt_status;
 	}
@@ -150,7 +152,7 @@ public class RegistrForm extends AbstractModel implements Serializable,Cloneable
 		return vt_terminated_time;
 	}
 
-
+	@FieldName(fieldname="vt_terminated_time")
 	public void setVt_terminated_time(String vt_terminated_time) {
 		this.vt_terminated_time = vt_terminated_time;
 	}
@@ -160,7 +162,7 @@ public class RegistrForm extends AbstractModel implements Serializable,Cloneable
 		return vt_cost;
 	}
 
-
+	@FieldName(fieldname="vt_cost")
 	public void setVt_cost(Double vt_cost) {
 		this.vt_cost = vt_cost;
 	}
@@ -170,7 +172,7 @@ public class RegistrForm extends AbstractModel implements Serializable,Cloneable
 		return vt_action_type;
 	}
 
-
+	@FieldName(fieldname="vt_action_type")
 	public void setVt_action_type(int vt_action_type) {
 		this.vt_action_type = vt_action_type;
 	}
@@ -180,7 +182,7 @@ public class RegistrForm extends AbstractModel implements Serializable,Cloneable
 		return vt_short_name;
 	}
 
-
+	@FieldName(fieldname="vt_short_name")
 	public void setVt_short_name(String vt_short_name) {
 		this.vt_short_name = vt_short_name;
 	}
@@ -200,7 +202,7 @@ public class RegistrForm extends AbstractModel implements Serializable,Cloneable
 		return rf_datareg;
 	}
 
-
+	@FieldName(fieldname="rf_datareg")
 	public void setRf_datareg(String rf_datareg) {
 		this.rf_datareg = rf_datareg;
 	}
@@ -210,7 +212,7 @@ public class RegistrForm extends AbstractModel implements Serializable,Cloneable
 		return rf_declarant_email;
 	}
 
-
+	@FieldName(fieldname="rf_declarant_email")
 	public void setRf_declarant_email(String rf_declarant_email) {
 		this.rf_declarant_email = rf_declarant_email;
 	}
@@ -220,7 +222,7 @@ public class RegistrForm extends AbstractModel implements Serializable,Cloneable
 		return rf_declarant_password;
 	}
 
-
+	@FieldName(fieldname="rf_declarant_password")
 	public void setRf_declarant_password(String rf_declarant_password) {
 		this.rf_declarant_password = rf_declarant_password;
 	}
@@ -230,24 +232,26 @@ public class RegistrForm extends AbstractModel implements Serializable,Cloneable
 		return rf_status;
 	}
 
-
+	@FieldName(fieldname="rf_status")
 	public void setRf_status(int rf_status) {
 		this.rf_status = rf_status;
 	}
 
 
-
-	
+    
+	private Object[] getValues(Object...values){
+		return values;
+	}
 	
 	@Override
-	public List<Object> getAll() {
-		List <Object> listValue = new ArrayList<Object>();
-		listValue.add(getVt_id());
-		listValue.add(getRf_datareg());		
-		listValue.add(getRf_declarant_email());
-		listValue.add(getRf_declarant_password());
-		listValue.add(getDp_id());
-		return listValue;
+	public  Object[] getAll() {
+		return getValues( 				
+		getVt_id(),
+		getRf_datareg(),		
+		getRf_declarant_email(),
+		getRf_declarant_password()+getRf_declarant_email(),
+		getDp_id());
+		 
 	}
 
 

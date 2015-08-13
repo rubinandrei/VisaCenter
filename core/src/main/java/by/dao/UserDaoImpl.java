@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 
 import by.model.SystemUsers;
 
-public class UserDaoImpl extends AbstractDaoImpl<SystemUsers>  implements ICastomImplDao<SystemUsers>  {
+public class UserDaoImpl extends AbstractDaoImpl<SystemUsers>  implements IGenericImplDao<SystemUsers>,ICastomGenericImplDao<SystemUsers>  {
 
 	private String  propSqlFolder = this.getClass().getSimpleName();
 	
@@ -20,7 +20,7 @@ public class UserDaoImpl extends AbstractDaoImpl<SystemUsers>  implements ICasto
 		super();
 	}
     
-    
+    @Override
     public int saveCustomRecord(String sqlStatment, Object ...keys ){    
     	try {
     	    String query = DaoStatment.daoINSERT.getStatment("dbsvript/"+propSqlFolder, sqlStatment);
@@ -32,7 +32,7 @@ public class UserDaoImpl extends AbstractDaoImpl<SystemUsers>  implements ICasto
     	return 0;
     }
     
-    
+    @Override
     public void saveRecord(List<SystemUsers> list){    
     	try {    		
     	    String query = DaoStatment.daoINSERT.getStatment("dbsvript/"+propSqlFolder, "insert.allparam.custom");
@@ -72,7 +72,7 @@ public class UserDaoImpl extends AbstractDaoImpl<SystemUsers>  implements ICasto
    		listFiels = get(users,keys,query);			
        	return listFiels;
        }
-
+    @Override
     public void updateRecord(Object ... keys){
     	try {
     		String query = DaoStatment.daoUPDATE.getStatment("dbsvript/"+propSqlFolder, "Update.user");
@@ -91,6 +91,26 @@ public class UserDaoImpl extends AbstractDaoImpl<SystemUsers>  implements ICasto
     		LOG.error("ERROR!: ", e.fillInStackTrace());
     	}
     }
+
+	@Override
+	public List<SystemUsers> getCustomRecord(String sqlStatment, Object... keys)
+			throws InstantiationException, IllegalAccessException,
+			SecurityException, IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateCustomRecord(String sqlStatment, Object... keys) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteRecord(Object... keys) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 	

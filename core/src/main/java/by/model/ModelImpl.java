@@ -5,7 +5,7 @@ import java.util.List;
 public interface ModelImpl<T> {
 	
 	
-	public List<Object> getAll();
+	public Object[] getAll();
 
 
 }

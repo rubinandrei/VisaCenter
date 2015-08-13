@@ -14,7 +14,7 @@ public class SystemUsers extends AbstractModel {
 		return su_id;
 	}
 
-
+	@FieldName(fieldname="su_id")
 	public void setSu_id(int su_id) {
 		this.su_id = su_id;
 	}
@@ -24,7 +24,7 @@ public class SystemUsers extends AbstractModel {
 		return su_login;
 	}
 
-
+	@FieldName(fieldname="su_login") 
 	public void setSu_login(String su_login) {
 		this.su_login = su_login;
 	}
@@ -34,7 +34,7 @@ public class SystemUsers extends AbstractModel {
 		return su_password;
 	}
 
-
+	@FieldName(fieldname="su_password") 
 	public void setSu_password(String su_password) {
 		this.su_password = su_password;
 	}
@@ -44,22 +44,26 @@ public class SystemUsers extends AbstractModel {
 		return su_admintyp;
 	}
 
-
+	@FieldName(fieldname="su_admintyp")
 	public void setSu_admintyp(int su_admintyp) {
 		this.su_admintyp = su_admintyp;
 	}
 
 
-	@Override
-	public List<Object> getAll() {
-		
-		List <Object> listValue = new ArrayList<Object>();
-		listValue.add(getSu_id());
-		listValue.add(getSu_login());	
-		listValue.add(getSu_password());
-		listValue.add(getSu_admintyp());
-		return listValue;
-	
+	private Object[] getValues(Object...values){
+		return values;
 	}
+	
+	@Override
+	public  Object[] getAll() {
+		return getValues( 				
+				getSu_id(),
+				getSu_login(),		
+				getSu_password(),
+				getSu_password()
+		       );
+		 
+	}
+	
 
 }

@@ -1,17 +1,28 @@
 package by.dao;
 
+import by.model.FieldName;
+
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.lang3.Validate;
 import org.apache.log4j.Logger;
+
+
+
+import org.omg.Dynamic.Parameter;
 
 import by.dbconection.MySQLconnection;
 import by.model.AbstractModel;
@@ -23,6 +34,7 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
 	private static final Logger LOG = Logger.getLogger(AbstractDaoImpl.class);	 
 	
 	private Connection conn = null;
+	private Class<?>[] paramtype=null;
 
 	//private List<T> daoList;
 	
@@ -32,28 +44,32 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
 	}
 
 
-	protected  synchronized int add(String query,List<T> value ) {		
+	protected  synchronized Set<Integer> add(String query,List<T> value ) {		
 		PreparedStatement preparedStatement = null;	
-		
+		Set<Integer> resultId = new HashSet<Integer>();
 		Validate.notNull(value, "value is not be null");
 		
 		int resultSet = -1;
 		
-		try {
-			preparedStatement = conn.prepareStatement(query);
+		try {			
 		    	for(T t:value)
 				{  		
-		    		    	
-		    		List<?> listValue = t.getAll();
-		    		Validate.noNullElements(listValue, t.getClass().getName()+" shoud be not null of elements");
+		    		preparedStatement = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);   	
+		    		
 		    		int i=0;
-		    		for(Object object:listValue){
+		    		for(Object object:t.getAll()){
 		    			i++;		    			
 		    			preparedStatement.setObject(i,object);		    		
 		    			}
 		    		
 		    		resultSet = preparedStatement.executeUpdate();
-		    		
+		    		if (resultSet == 0) {
+			            throw new SQLException("Save table fail, no rows affected.");
+			        }
+					ResultSet tableId = preparedStatement.getGeneratedKeys();
+					if (tableId.next()) {
+						resultId.add((int) tableId.getLong(1));				
+			         }
 	    			
 				}				
 			
@@ -64,11 +80,12 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
 			LOG.error("ERROR!: ", e.fillInStackTrace());
 		}
 		
-		return resultSet;
+		return resultId;
     }
+	
 	// castom insert 
 	protected  synchronized int add(String query, Object[] conditionsKey) {		
-		Validate.notNull(conditionsKey, "conditionsKey is not be null");
+		Validate.notNull(conditionsKey, "conditionsKey is not be null");		
 		PreparedStatement preparedStatement = null;
 		int resultSet = -1;
 		int SaveId=0;
@@ -106,8 +123,7 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
 	protected synchronized List <T> get(final T t,Object[] conditionsKey,String query  ) {
 		 
       	ResultSet result = null;		
-      	Validate.notNull(t, "Model is not be null");
-      	Validate.notNull(conditionsKey, "conditionsKey is not be null");
+      	Validate.notNull(t, "Model is not be null");      
 		PreparedStatement preparedStatement;		
 			try{
 				preparedStatement = conn.prepareStatement(query);
@@ -124,7 +140,7 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
 		}catch (SQLException e) {			
 			LOG.error("ERROR!: ", e.fillInStackTrace());
 		}		
-		
+	
 			return getResults(t.getClass().getMethods(),result,t);
 	}
 
@@ -133,42 +149,52 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
     	        	 
     	  
     	  List<T> daoList = new ArrayList<T>(); 
-    	 
+   
     	
     	  
     	  try {
 			while(resultSet.next()){
 				 T modelObject = extracted(t);
 				
-				  for(Method classMethod:classMethods){
-					  		
-					  if(classMethod.getParameterCount() >0){				   
-						  Parameter[] parametr = classMethod.getParameters();				  
-						  if(parametr[0].isNamePresent()){							  
-														
-										//check on type parametrs;
-							  try {
-										if(int.class.isAssignableFrom(parametr[0].getType())){										
-										
-											classMethod.invoke(modelObject,resultSet.getInt(parametr[0].getName()));
+				  for(Method classMethod:classMethods){					  		
+					  if(classMethod.isAnnotationPresent(FieldName.class)){	
+						  
+						  Annotation[] anatations = classMethod.getAnnotations();
+						  Annotation anatation  = anatations[0]; 
+						  if(anatation instanceof FieldName){
+						   FieldName anatfields = (FieldName) anatation;						   	
+									
+							  try {						  
+								  
+								  paramtype = classMethod.getParameterTypes();
+								  if(int.class.isAssignableFrom(paramtype[0])){														
+										classMethod.invoke(modelObject,resultSet.getInt(anatfields.fieldname()));
+								  }
+								  if(Double.class.isAssignableFrom(paramtype[0])){														
+										classMethod.invoke(modelObject,resultSet.getDouble(anatfields.fieldname()));
+								  }
+								  
+								  if(String.class.isAssignableFrom(paramtype[0])){
+									  classMethod.invoke(modelObject,resultSet.getString(anatfields.fieldname()));
+								  }
+								  /*
+								   
+										if(int.class.isAssignableFrom(paramtype[0].getClass())){								
+											
+											classMethod.invoke(modelObject,resultSet.getInt(anatfields.fieldname()));
 											
 											}
-										if(String.class.isAssignableFrom(parametr[0].getType())){														
-										   classMethod.invoke(modelObject,resultSet.getString(parametr[0].getName()));
+										if(String.class.isAssignableFrom(paramtype[0].getClass())){														
+										    classMethod.invoke(modelObject,resultSet.getString(anatfields.fieldname()));
 										}
-										if(Double.class.isAssignableFrom(parametr[0].getType())){														
-											   classMethod.invoke(modelObject,resultSet.getDouble(parametr[0].getName()));
-										}
+										*/
+										
 								} catch (IllegalArgumentException e) {										
 										e.printStackTrace();
 								} catch (InvocationTargetException e) {
 								
 										e.printStackTrace();
 								}
-											
-										
-										
-										
 								 
 						  }
 					  }
@@ -193,12 +219,12 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
         int resultSet = -1;	
         try {
         		preparedStatement = conn.prepareStatement(query);	    
-	    		int i= 1;
+	    		
 	    		for(Object conditions:conditionsKey){
-	    			preparedStatement.setObject(i,conditions);
-	    			i++;
+	    			preparedStatement.setObject(1,conditions);
+	    			resultSet = preparedStatement.executeUpdate();
 	    			}	    		
-	    		resultSet = preparedStatement.executeUpdate();
+	    		
 	    		
 			}catch (SQLException e) {		
 				LOG.error("ERROR!: ", e.fillInStackTrace());

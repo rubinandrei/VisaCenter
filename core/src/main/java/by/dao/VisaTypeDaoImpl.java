@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 
 import by.model.Visatype;
 
-public class VisaTypeDaoImpl extends AbstractDaoImpl<Visatype>  implements ICastomImplDao<Visatype>  {
+public class VisaTypeDaoImpl extends AbstractDaoImpl<Visatype>  implements IGenericImplDao<Visatype>  {
 
 	private String  propSqlFolder = this.getClass().getSimpleName();
 	
@@ -21,10 +21,10 @@ public class VisaTypeDaoImpl extends AbstractDaoImpl<Visatype>  implements ICast
 	}
     
     
-    
-    public void saveRecord(List<Visatype> list, String sqlStatment){    
+    @Override
+    public void saveRecord(List<Visatype> list){    
     	try {
-    	    String query = DaoStatment.daoINSERT.getStatment("dbsvript/"+propSqlFolder, sqlStatment);
+    	    String query = DaoStatment.daoINSERT.getStatment("dbsvript/"+propSqlFolder, "Insert.all");
 			add(query,list);
 		} catch (IOException e) {
 			LOG.error("ERROR!: ", e.fillInStackTrace());
@@ -32,9 +32,9 @@ public class VisaTypeDaoImpl extends AbstractDaoImpl<Visatype>  implements ICast
 		}
     }
     
-    public List<Visatype> getRecord(String sqlStatment, Object ... keys) throws InstantiationException, IllegalAccessException, SecurityException,IOException{     	
+    public List<Visatype> getRecord(Object...keys) throws InstantiationException, IllegalAccessException, SecurityException,IOException{     	
     
-	 String query = DaoStatment.daoREAD.getStatment("dbsvript/"+propSqlFolder, sqlStatment);		
+	 String query = DaoStatment.daoREAD.getStatment("dbsvript/"+propSqlFolder, "Select.all");		
     	
      	List<Visatype> listFiels = new ArrayList<Visatype>();
 		Visatype visatype = new Visatype(); 
@@ -42,9 +42,9 @@ public class VisaTypeDaoImpl extends AbstractDaoImpl<Visatype>  implements ICast
     	return listFiels;
     }
 
-    public void updateRecord(String sqlStatment,Object ... keys){
+    public void updateRecord(Object ... keys){
     	try {
-    		String query = DaoStatment.daoUPDATE.getStatment("dbsvript/"+propSqlFolder, sqlStatment);
+    		String query = DaoStatment.daoUPDATE.getStatment("dbsvript/"+propSqlFolder, "Update.byId");
     		update(keys,query);
     	} catch (IOException e) {
     		LOG.error("ERROR!: ", e.fillInStackTrace());
@@ -52,9 +52,9 @@ public class VisaTypeDaoImpl extends AbstractDaoImpl<Visatype>  implements ICast
     	}
     }
     
-    public void deleteRecord(String sqlStatment,Object ... keys){
+    public void deleteRecord(Object ... keys){
     	try {
-    		String query = DaoStatment.daoDELETE.getStatment("dbsvript/"+propSqlFolder, sqlStatment);
+    		String query = DaoStatment.daoDELETE.getStatment("dbsvript/"+propSqlFolder, "Delete.byID");
     		delete(keys,query);
     	} catch (IOException e) {		
     		LOG.error("ERROR!: ", e.fillInStackTrace());

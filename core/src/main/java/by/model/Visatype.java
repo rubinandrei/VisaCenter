@@ -1,9 +1,10 @@
 package by.model;
 
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.List;
-
+import by.model.AbstractModel;
 
 public class Visatype extends AbstractModel implements Serializable,Cloneable {
 	
@@ -20,6 +21,7 @@ public class Visatype extends AbstractModel implements Serializable,Cloneable {
 	  
 	
 
+	 
 	public int getVt_id() {
 		return vt_id;
 	}
@@ -40,7 +42,7 @@ public class Visatype extends AbstractModel implements Serializable,Cloneable {
 
 
 
-
+	@FieldName(fieldname="vt_name") 
 	public void setVt_name(String vt_name) {
 		this.vt_name = vt_name;
 	}
@@ -54,7 +56,7 @@ public class Visatype extends AbstractModel implements Serializable,Cloneable {
 
 
 
-
+	@FieldName(fieldname="vt_actionday_count") 
 	public void setVt_actionday_count(int vt_actionday_count) {
 		this.vt_actionday_count = vt_actionday_count;
 	}
@@ -68,7 +70,7 @@ public class Visatype extends AbstractModel implements Serializable,Cloneable {
 
 
 
-
+	@FieldName(fieldname="vt_status") 
 	public void setVt_status(int vt_status) {
 		this.vt_status = vt_status;
 	}
@@ -82,7 +84,7 @@ public class Visatype extends AbstractModel implements Serializable,Cloneable {
 
 
 
-
+	@FieldName(fieldname="vt_terminated_time") 
 	public void setVt_terminated_time(String vt_terminated_time) {
 		this.vt_terminated_time = vt_terminated_time;
 	}
@@ -96,7 +98,7 @@ public class Visatype extends AbstractModel implements Serializable,Cloneable {
 
 
 
-
+	@FieldName(fieldname="vt_cost") 
 	public void setVt_cost(Double vt_cost) {
 		this.vt_cost = vt_cost;
 	}
@@ -110,7 +112,7 @@ public class Visatype extends AbstractModel implements Serializable,Cloneable {
 
 
 
-
+	@FieldName(fieldname="vt_action_type") 
 	public void setVt_action_type(int vt_action_type) {
 		this.vt_action_type = vt_action_type;
 	}
@@ -124,24 +126,26 @@ public class Visatype extends AbstractModel implements Serializable,Cloneable {
 
 
 
-
+	@FieldName(fieldname="vt_short_name") 
 	public void setVt_short_name(String vt_short_name) {
 		this.vt_short_name = vt_short_name;
 	}
 
 
+	private Object[] getValues(Object...values){
+		return values;
+	}
 
 
-	@Override
-	public List<Object> getAll() {	
-		List <Object> listValue = new ArrayList<Object>();
-		listValue.add(getVt_action_type());
-		listValue.add(getVt_actionday_count());	
-		listValue.add(getVt_status());
-		listValue.add(getVt_cost());
-		listValue.add(getVt_name());
-		listValue.add(getVt_short_name());		
-		return listValue;
+	public Object[] getAll() {	
+		return getValues(
+		getVt_action_type()
+		,getVt_actionday_count()	
+		,getVt_status()
+		,getVt_cost()
+		,getVt_name()
+		,getVt_short_name());		
+		
 	}
 	
 	
