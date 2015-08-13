@@ -1,21 +1,40 @@
 <?xml version="1.0"?>
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">      
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>itacademy.visacenter</groupId>
     <artifactId>visacenter</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-  </parent>
+  </parent>    
   <groupId>itacademy.visacenter.beckend</groupId>
   <artifactId>aps</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>aps</name>
-  <url>http://maven.apache.org</url>
+  <url>http://maven.apache.org</url> 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-  <dependencies>
+  
+    <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>itacademy.visacenter.beckend</groupId>
+        <artifactId>core</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <type>jar</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>  
+  <dependencies> 
+  <dependency>
+            <groupId>itacademy.visacenter.beckend</groupId>
+            <artifactId>core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>import</scope>            
+  </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -34,5 +53,4 @@
 		<version>1.2.17</version>
 	</dependency>
   </dependencies>
-  <packaging>war</packaging>
 </project>
