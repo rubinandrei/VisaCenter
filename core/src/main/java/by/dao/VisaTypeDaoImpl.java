@@ -4,13 +4,15 @@ package by.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
 
+import by.exeption.DaoPropertyUtilExeption;
 import by.model.Visatype;
 
-public class VisaTypeDaoImpl extends AbstractDaoImpl<Visatype>  implements IGenericImplDao<Visatype>  {
+public class VisaTypeDaoImpl extends AbstractDaoImpl<Visatype>  implements GenericDao<Visatype>  {
 
 	private String  propSqlFolder = this.getClass().getSimpleName();
 	
@@ -22,17 +24,13 @@ public class VisaTypeDaoImpl extends AbstractDaoImpl<Visatype>  implements IGene
     
     
     @Override
-    public void saveRecord(List<Visatype> list){    
-    	try {
+    public Set<Integer>  saveRecord(List<Visatype> list) throws ClassNotFoundException,DaoPropertyUtilExeption{    
     	    String query = DaoStatment.daoINSERT.getStatment("dbsvript/"+propSqlFolder, "Insert.all");
-			add(query,list);
-		} catch (IOException e) {
-			LOG.error("ERROR!: ", e.fillInStackTrace());
-			
-		}
+			return add(query,list);
+	
     }
     
-    public List<Visatype> getRecord(Object...keys) throws InstantiationException, IllegalAccessException, SecurityException,IOException{     	
+    public List<Visatype> getRecord(Object...keys) throws InstantiationException, IllegalAccessException, SecurityException,DaoPropertyUtilExeption{     	
     
 	 String query = DaoStatment.daoREAD.getStatment("dbsvript/"+propSqlFolder, "Select.all");		
     	
@@ -42,25 +40,17 @@ public class VisaTypeDaoImpl extends AbstractDaoImpl<Visatype>  implements IGene
     	return listFiels;
     }
 
-    public void updateRecord(Object ... keys){
-    	try {
+    public void updateRecord(Object ... keys) throws DaoPropertyUtilExeption{
     		String query = DaoStatment.daoUPDATE.getStatment("dbsvript/"+propSqlFolder, "Update.byId");
     		update(keys,query);
-    	} catch (IOException e) {
-    		LOG.error("ERROR!: ", e.fillInStackTrace());
-    		
-    	}
+    
     }
     
-    public void deleteRecord(Object ... keys){
-    	try {
+    public void deleteRecord(Object ... keys) throws DaoPropertyUtilExeption{
     		String query = DaoStatment.daoDELETE.getStatment("dbsvript/"+propSqlFolder, "Delete.byID");
     		delete(keys,query);
-    	} catch (IOException e) {		
-    		LOG.error("ERROR!: ", e.fillInStackTrace());
-    	}
+    	
     }
-
 
 
 	

@@ -4,13 +4,15 @@ package by.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
 
+import by.exeption.DaoPropertyUtilExeption;
 import by.model.SystemUsers;
 
-public class UserDaoImpl extends AbstractDaoImpl<SystemUsers>  implements IGenericImplDao<SystemUsers>,ICastomGenericImplDao<SystemUsers>  {
+public class UserDaoImpl extends AbstractDaoImpl<SystemUsers>  implements GenericDao<SystemUsers>,CastomGenericDao<SystemUsers>  {
 
 	private String  propSqlFolder = this.getClass().getSimpleName();
 	
@@ -21,29 +23,22 @@ public class UserDaoImpl extends AbstractDaoImpl<SystemUsers>  implements IGener
 	}
     
     @Override
-    public int saveCustomRecord(String sqlStatment, Object ...keys ){    
-    	try {
+    public int saveCustomRecord(String sqlStatment, Object ...keys ) throws ClassNotFoundException,DaoPropertyUtilExeption {    
+    	
     	    String query = DaoStatment.daoINSERT.getStatment("dbsvript/"+propSqlFolder, sqlStatment);
 			return add(query,keys);
-		} catch (IOException e) {
-			
-			LOG.error("ERROR!: ", e.fillInStackTrace());
-		}
-    	return 0;
+		
     }
     
     @Override
-    public void saveRecord(List<SystemUsers> list){    
-    	try {    		
+    public Set<Integer> saveRecord(List<SystemUsers> list) throws ClassNotFoundException, DaoPropertyUtilExeption{    
+   
     	    String query = DaoStatment.daoINSERT.getStatment("dbsvript/"+propSqlFolder, "insert.allparam.custom");
-			add(query,list);
-		} catch (IOException e) {
-			LOG.error("ERROR!: ", e.fillInStackTrace());
-			
-		}
+			return add(query,list);
+	
     }
     
-    public List<SystemUsers> getRecordbyAdmin(Object ... keys) throws InstantiationException, IllegalAccessException, SecurityException,IOException{     	
+    public List<SystemUsers> getRecordbyAdmin(Object ... keys) throws InstantiationException, IllegalAccessException, SecurityException,DaoPropertyUtilExeption{     	
     
 	 String query = DaoStatment.daoREAD.getStatment("dbsvript/"+propSqlFolder, "Select.admin");		
     	
@@ -53,7 +48,7 @@ public class UserDaoImpl extends AbstractDaoImpl<SystemUsers>  implements IGener
     	return listFiels;
     }
     @Override
-    public List<SystemUsers> getRecord(Object ... keys) throws InstantiationException, IllegalAccessException, SecurityException,IOException{     	
+    public List<SystemUsers> getRecord(Object ... keys) throws InstantiationException, IllegalAccessException, SecurityException, DaoPropertyUtilExeption{     	
         
    	 String query = DaoStatment.daoREAD.getStatment("dbsvript/"+propSqlFolder, "Select.all");		
        	
@@ -63,33 +58,27 @@ public class UserDaoImpl extends AbstractDaoImpl<SystemUsers>  implements IGener
        	return listFiels;
        }
     
-    public List<SystemUsers> getRecordbyUser(Object ... keys) throws InstantiationException, IllegalAccessException, SecurityException,IOException{     	
+    public List<SystemUsers> getRecordbyUser(Object ... keys) throws InstantiationException, IllegalAccessException, SecurityException,DaoPropertyUtilExeption{     	
         
-   	 String query = DaoStatment.daoREAD.getStatment("dbsvript/"+propSqlFolder, "Select.user");		
-       	
-        	List<SystemUsers> listFiels = new ArrayList<SystemUsers>();
-        	SystemUsers users = new SystemUsers(); 
+   	 	String query = null;	
+   	 	query = DaoStatment.daoREAD.getStatment("dbsvript/"+propSqlFolder, "Select.user");
+     	List<SystemUsers> listFiels = new ArrayList<SystemUsers>();
+        SystemUsers users = new SystemUsers(); 
    		listFiels = get(users,keys,query);			
        	return listFiels;
-       }
+    }
     @Override
-    public void updateRecord(Object ... keys){
-    	try {
+    public void updateRecord(Object ... keys) throws DaoPropertyUtilExeption{
+
     		String query = DaoStatment.daoUPDATE.getStatment("dbsvript/"+propSqlFolder, "Update.user");
     		update(keys,query);
-    	} catch (IOException e) {
-    		LOG.error("ERROR!: ", e.fillInStackTrace());
-    		
-    	}
+    	
     }
     
-    public void deleteRecordbyId(Object ... keys){
-    	try {
+    public void deleteRecordbyId(Object ... keys) throws DaoPropertyUtilExeption{
+    
     		String query = DaoStatment.daoDELETE.getStatment("dbsvript/"+propSqlFolder, "Delete.user");
-    		delete(keys,query);
-    	} catch (IOException e) {		
-    		LOG.error("ERROR!: ", e.fillInStackTrace());
-    	}
+    		delete(keys,query);    
     }
 
 	@Override

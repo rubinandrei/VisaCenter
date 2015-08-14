@@ -6,7 +6,7 @@ import java.util.List;
 
 
 
-public class DeclarPassport extends AbstractModel implements Serializable,Cloneable {
+public class DeclarPassport extends AbstractModelImpl implements Serializable,Cloneable {
 	private static final long serialVersionUID = 8325537391642222525L;
 	
 	
@@ -49,6 +49,7 @@ public class DeclarPassport extends AbstractModel implements Serializable,Clonea
 	public void setDp_passport_nb(String dp_passport_nb) {
 		this.dp_passport_nb = dp_passport_nb;
 	}
+	
 	public String getDp_date_birth() {
 		return dp_date_birth;
 	}

@@ -25,11 +25,11 @@ import org.apache.log4j.Logger;
 import org.omg.Dynamic.Parameter;
 
 import by.dbconection.MySQLconnection;
-import by.model.AbstractModel;
+import by.model.AbstractModelImpl;
 
 
 
-public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements AbstractDAO<T> {	
+public abstract  class AbstractDaoImpl<T extends AbstractModelImpl>{// implements AbstractDAO<T> {	
 	
 	private static final Logger LOG = Logger.getLogger(AbstractDaoImpl.class);	 
 	
@@ -38,54 +38,64 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
 
 	//private List<T> daoList;
 	
-	protected AbstractDaoImpl() throws ClassNotFoundException{
-		 conn =  MySQLconnection.getConnection();	 
+	protected AbstractDaoImpl() throws ClassNotFoundException{		
 		  
 	}
 
 
-	protected  synchronized Set<Integer> add(String query,List<T> value ) {		
+	protected  Set<Integer> add(String query,List<T> value ) {
+		
+		 
 		PreparedStatement preparedStatement = null;	
 		Set<Integer> resultId = new HashSet<Integer>();
-		Validate.notNull(value, "value is not be null");
-		
+		Validate.notNull(value, "value is not be null");		
 		int resultSet = -1;
 		
-		try {			
+		try {
+			    conn =  MySQLconnection.getConnection();
+
 		    	for(T t:value)
 				{  		
 		    		preparedStatement = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);   	
-		    		
+		    		LOG.debug("start query  " + query);
 		    		int i=0;
 		    		for(Object object:t.getAll()){
 		    			i++;		    			
+		    			LOG.debug("start parametrs + " + object);		    			
 		    			preparedStatement.setObject(i,object);		    		
 		    			}
 		    		
 		    		resultSet = preparedStatement.executeUpdate();
 		    		if (resultSet == 0) {
+		    			LOG.debug(resultSet);
 			            throw new SQLException("Save table fail, no rows affected.");
 			        }
+		    		LOG.debug(preparedStatement.getGeneratedKeys());
+		    		
 					ResultSet tableId = preparedStatement.getGeneratedKeys();
+					
 					if (tableId.next()) {
-						resultId.add((int) tableId.getLong(1));				
+						LOG.debug("Inserted id " + tableId.getInt(1));					
+						resultId.add(tableId.getInt(1));
+						
 			         }
 	    			
 				}				
 			
 		} catch (SQLException e) {
-			
 			LOG.error("ERROR!: ", e.fillInStackTrace());
 		} catch (Exception e) {
 			LOG.error("ERROR!: ", e.fillInStackTrace());
 		}
 		
+		
 		return resultId;
     }
 	
 	// castom insert 
-	protected  synchronized int add(String query, Object[] conditionsKey) {		
-		Validate.notNull(conditionsKey, "conditionsKey is not be null");		
+	protected  int add(String query, Object[] conditionsKey) throws ClassNotFoundException {		
+		Validate.notNull(conditionsKey, "conditionsKey is not be null");
+		conn =  MySQLconnection.getConnection();
 		PreparedStatement preparedStatement = null;
 		int resultSet = -1;
 		int SaveId=0;
@@ -105,7 +115,7 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
 	        }
 			ResultSet tableId = preparedStatement.getGeneratedKeys();
 			if (tableId.next()) {
-				SaveId = (int) tableId.getLong(1);				
+				SaveId = tableId.getInt(1);				
 	         }
 			
 		} catch (SQLException e) {
@@ -120,12 +130,15 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
     }
 	
 
-	protected synchronized List <T> get(final T t,Object[] conditionsKey,String query  ) {
+	protected  List <T> get(final T t,Object[] conditionsKey,String query  )  {
+		
+		
 		 
       	ResultSet result = null;		
       	Validate.notNull(t, "Model is not be null");      
 		PreparedStatement preparedStatement;		
 			try{
+				conn =  MySQLconnection.getConnection();
 				preparedStatement = conn.prepareStatement(query);
 				if(conditionsKey.length > 0){
 					int i= 1;
@@ -137,15 +150,16 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
 				result = preparedStatement.executeQuery();
 				
 		
-		}catch (SQLException e) {			
+		}catch (SQLException  e) {			
 			LOG.error("ERROR!: ", e.fillInStackTrace());
-		}		
-	
+		}catch (ClassNotFoundException  e) {			
+		LOG.error("ERROR!: ", e.fillInStackTrace());
+	    }
 			return getResults(t.getClass().getMethods(),result,t);
 	}
 
 
-        private synchronized List <T> getResults(Method[] classMethods,ResultSet resultSet, T t) {    	  
+        private  List <T> getResults(Method[] classMethods,ResultSet resultSet, T t) {    	  
     	        	 
     	  
     	  List<T> daoList = new ArrayList<T>(); 
@@ -177,18 +191,7 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
 								  if(String.class.isAssignableFrom(paramtype[0])){
 									  classMethod.invoke(modelObject,resultSet.getString(anatfields.fieldname()));
 								  }
-								  /*
-								   
-										if(int.class.isAssignableFrom(paramtype[0].getClass())){								
-											
-											classMethod.invoke(modelObject,resultSet.getInt(anatfields.fieldname()));
-											
-											}
-										if(String.class.isAssignableFrom(paramtype[0].getClass())){														
-										    classMethod.invoke(modelObject,resultSet.getString(anatfields.fieldname()));
-										}
-										*/
-										
+							
 								} catch (IllegalArgumentException e) {										
 										e.printStackTrace();
 								} catch (InvocationTargetException e) {
@@ -213,7 +216,7 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
     	  return daoList;
       }
       
-	protected synchronized int delete(Object[] conditionsKey, String query){
+	protected  int delete(Object[] conditionsKey, String query){
 		Validate.notNull(conditionsKey,"Model is not be null");
         PreparedStatement preparedStatement = null;
         int resultSet = -1;	
@@ -234,7 +237,7 @@ public abstract  class AbstractDaoImpl<T extends AbstractModel>{// implements Ab
   		
   	  }      
       
-      protected synchronized int update(Object[] conditionsKey, String query){
+      protected  int update(Object[] conditionsKey, String query){
     	  Validate.notNull(conditionsKey,"Model is not be null");
           PreparedStatement preparedStatement = null;
           int resultSet = -1;	

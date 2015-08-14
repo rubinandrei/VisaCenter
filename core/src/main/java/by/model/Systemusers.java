@@ -3,7 +3,7 @@ package by.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SystemUsers extends AbstractModel {
+public class SystemUsers extends AbstractModelImpl {
 	protected int su_id;
 	protected String su_login;
 	protected String su_password;

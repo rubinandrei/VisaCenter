@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.List;
-import by.model.AbstractModel;
+import by.model.AbstractModelImpl;
 
-public class Visatype extends AbstractModel implements Serializable,Cloneable {
+public class Visatype extends AbstractModelImpl implements Serializable,Cloneable {
 	
 	private static final long serialVersionUID = -5334937414764306087L;
 	private int vt_id;

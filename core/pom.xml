@@ -92,6 +92,7 @@
 			<autocommit>true</autocommit>
 			<srcFiles>
 				<srcFile>src/main/resources/dbsvript/InitbaseStruct.sql</srcFile>
+				<srcFile>src/main/resources/dbsvript/updateTable.sql</srcFile>
 			</srcFiles>
 		</configuration>
 		</execution> 

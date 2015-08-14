@@ -1,1 +1,1 @@
-insert.allparam = INSERT INTO visa_type(vt_action_type,vt_actionday_count,vt_status,vt_cost,vt_name,vt_short_name)VALUES(?,?,?,?,?,?)
+insert.allparam = INSERT INTO declarpassport (dp_first_name,dp_second_name,dp_date_birth,dp_passport_nb,dp_password_indent_nb,dp_passport_valid_data) VALUES(?,?,date(?),?,?,date(?))

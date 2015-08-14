@@ -1,7 +1,7 @@
 package by.exeption;
 
 
-public class VisaCenterExeption	extends Exception{
+public class VisaCenterExeption	extends DaoPropertyUtilExeption{
 		/**
 	 * 
 	 */

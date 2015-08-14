@@ -1,5 +1,6 @@
 package by.exeption;
 
-public class DeclarPassportDaoExeption {
+public class DeclarPassportDaoExeption extends RuntimeException{
+	
 
 }

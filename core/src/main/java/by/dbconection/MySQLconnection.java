@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import com.mysql.jdbc.Connection;
 
+import by.exeption.DaoPropertyUtilExeption;
 import by.utils.ReadPropertys;
 
 public class MySQLconnection {
@@ -32,9 +33,10 @@ public class MySQLconnection {
 			}catch(SQLException exp) {
 				LOG.error("ERROR!: ", exp.fillInStackTrace());
 				
-			}catch(IOException e)
+			}catch(DaoPropertyUtilExeption e)
 			{
 				LOG.error("ERROR!: ", e.fillInStackTrace());
+				
 			}
 		}
 	}

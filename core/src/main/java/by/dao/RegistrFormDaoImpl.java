@@ -1,7 +1,15 @@
 package by.dao;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.io.IOException;
+
+
+
+
+
+
+
 
 
 
@@ -15,11 +23,12 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 
+import by.exeption.DaoPropertyUtilExeption;
 import by.model.DeclarPassport;
 import by.model.RegistrForm;
 
 
-public class RegistrFormDaoImpl extends AbstractDaoImpl<RegistrForm> implements IGenericImplDao<RegistrForm> ,ICastomGenericImplDao<RegistrForm>  {
+public class RegistrFormDaoImpl extends AbstractDaoImpl<RegistrForm> implements GenericDao<RegistrForm> ,CastomGenericDao<RegistrForm>  {
 
 	private String  propSqlFolder = this.getClass().getSimpleName();
 	
@@ -30,105 +39,89 @@ public class RegistrFormDaoImpl extends AbstractDaoImpl<RegistrForm> implements 
 		super();
 	}   
     @Override
-    public void saveRecord(List<RegistrForm> listRegistrForm){    	
-    	try {
-    		String query = DaoStatment.daoINSERT.getStatment("dbsvript/"+propSqlFolder, "insert.allparam");
-    		for(RegistrForm registrform:listRegistrForm){
-    			if(registrform.getDp_id()<=0){	 
-    				if(getPassbyPassportNb(registrform.getDp_passport_nb()).size()<1){    				 
-    					registrform.setDp_id(passport.saveCustomRecord("passport.save",registrform.getDp_date_birth()
-    																				  ,registrform.getDp_first_name()
-    																				  ,registrform.getDp_second_name()
-    																				  ,registrform.getDp_passport_nb()
-    																				  ,registrform.getDp_passport_indent_nb()
-    																				  ,registrform.getDp_passport_valid_data()));
-    				
-    				}
-    				
-    			}
-    		
-    		}  
-    		
-    		add(query,listRegistrForm);
-		} catch (IOException e) {
-			
-			LOG.error("ERROR!: ", e.fillInStackTrace());
-		}
+    public Set<Integer> saveRecord(List<RegistrForm> listRegistrForm) {    	
+    	String query;
+    	Set <Integer> result=null;
+		try {
+			query = DaoStatment.daoINSERT.getStatment("dbsvript/"+propSqlFolder, "insert.allparam");
+			result = add(query,listRegistrForm);
+			 
+		} catch (DaoPropertyUtilExeption e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}    		
+		return result;
+		    	
     }
+    
     @Override
-    public List<RegistrForm> getRecord(Object ... keys) throws InstantiationException, IllegalAccessException, SecurityException,IOException{
+    public List<RegistrForm> getRecord(Object ... keys) {
     	
-    	String query = DaoStatment.daoREAD.getStatment("dbsvript/"+propSqlFolder, "Select.all");
     	List<RegistrForm> listFiels = new ArrayList<RegistrForm>();
 		RegistrForm visatype = new RegistrForm(); 
-		listFiels = get(visatype,keys,query);		
+    	String query;
+		try {
+			query = DaoStatment.daoREAD.getStatment("dbsvript/"+propSqlFolder, "Select.all");			
+			listFiels = get(visatype,keys,query);	
+			
+		} catch (DaoPropertyUtilExeption e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    		
 		return listFiels;
     }
     
     @Override
-    public void updateRecord(Object ... keys){
-    	try {
+    public void updateRecord(Object ... keys) throws DaoPropertyUtilExeption{
+
     		String query = DaoStatment.daoUPDATE.getStatment("dbsvript/"+propSqlFolder, "Update.all");
     		update(keys,query);
-    	} catch (IOException e) {
-		
-    		LOG.error("ERROR!: ", e.fillInStackTrace());
-    	}
+    
     }
     
     @Override
-    public void deleteRecord(Object ... keys){
-    	try {
+    public void deleteRecord(Object ... keys) throws DaoPropertyUtilExeption{
+ 
     		String query = DaoStatment.daoDELETE.getStatment("dbsvript/"+propSqlFolder, "Delete.byId");
     		delete(keys,query);
-    	} catch (IOException e) {
-
-    		LOG.error("ERROR!: ", e.fillInStackTrace());
-    	}
+    	
     }
     
      public List<DeclarPassport> getPassbyPassportNb(String passportNb){
     	 
-    	 List<DeclarPassport> listpassport = new ArrayList<DeclarPassport>();
-    	   
+    	 List<DeclarPassport> listpassport = new ArrayList<DeclarPassport>();   	   
     	 try {
-    		 
-    		 listpassport = passport.getCustomRecord("Getby.passport_nb", passportNb);
-    		 
+			 listpassport = passport.getCustomRecord("Getby.passport_nb", passportNb);
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			LOG.error("ERROR!: ", e.fillInStackTrace());
+			
+			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			LOG.error("ERROR!: ", e.fillInStackTrace());
+			
+			e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			LOG.error("ERROR!: ", e.fillInStackTrace());
+			
+			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			LOG.error("ERROR!: ", e.fillInStackTrace());
+			
+			e.printStackTrace();
 		}
     	 return listpassport;
-    	 
      }
 
 	@Override
-	public int saveCustomRecord(String sqlStatment, Object... keys) {
-		try {
-    	    String query = DaoStatment.daoINSERT.getStatment("dbsvript/"+propSqlFolder, sqlStatment);
+	public int saveCustomRecord(String sqlStatment, Object... keys) throws ClassNotFoundException, DaoPropertyUtilExeption {
+
+    	    String query = DaoStatment.daoINSERT.getStatment("dbsvript/"+propSqlFolder, sqlStatment.length()>0?sqlStatment:"insert.allparam");
 			return add(query,keys);
-		} catch (IOException e) {
-			
-			LOG.error("ERROR!: ", e.fillInStackTrace());
-		}
-    	return 0;
+		
 	}
 
 	@Override
 	public List<RegistrForm> getCustomRecord(String sqlStatment, Object... keys)
 	
 			throws InstantiationException, IllegalAccessException,
-			SecurityException, IOException {
+			SecurityException, DaoPropertyUtilExeption {
 		 String query = DaoStatment.daoREAD.getStatment("dbsvript/"+propSqlFolder, sqlStatment);
 	    	
        	 List<RegistrForm> listFiels = new ArrayList<RegistrForm>();
@@ -144,14 +137,10 @@ public class RegistrFormDaoImpl extends AbstractDaoImpl<RegistrForm> implements 
 	}
 
 	@Override
-	public void updateCustomRecord(String sqlStatment, Object... keys) {
-		try {
+	public void updateCustomRecord(String sqlStatment, Object... keys) throws DaoPropertyUtilExeption {
+	
     		String query = DaoStatment.daoUPDATE.getStatment("dbsvript/"+propSqlFolder, sqlStatment);
-    		update(keys,query);
-    	} catch (IOException e) {
-    		LOG.error("ERROR!: ", e.fillInStackTrace());
-    	}
-		
+    		update(keys,query);    	
 	}
 
 	

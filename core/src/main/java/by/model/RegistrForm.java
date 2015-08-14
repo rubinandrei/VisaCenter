@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegistrForm extends AbstractModel implements Serializable,Cloneable{
+public class RegistrForm extends AbstractModelImpl implements Serializable,Cloneable{
 
 	private static final long serialVersionUID = -8767546388300669365L;
 	
@@ -28,7 +28,7 @@ public class RegistrForm extends AbstractModel implements Serializable,Cloneable
 	private String rf_declarant_email;
 	private String rf_declarant_password;
 	private int rf_status;
-	private int rf_dp_id;
+	
 	
 	
 	
