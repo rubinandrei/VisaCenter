@@ -17,17 +17,17 @@ import by.dao.VisaTypeDaoImpl;
 
 public class VisaTypeController implements IEventsController<Visatype>{
 
-	public List<?> getData() {
+	public List<Visatype> getDataById(Object... key) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Set<Integer> saveData(List<Visatype> data) {
+	public List<Visatype> saveData(List<Visatype> data) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Visatype updateData() {
+	public List<Visatype> updateData(List<Visatype> data) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -36,6 +36,7 @@ public class VisaTypeController implements IEventsController<Visatype>{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 	
 

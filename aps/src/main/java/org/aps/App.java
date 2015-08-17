@@ -31,8 +31,8 @@ public class App
     	List<RegistrForm> passport  = new ArrayList<RegistrForm>();
     	passport.add(aaa);
     	RegistrationFormService regForm = new RegistrationFormService();
-    	Set <Integer> sss = regForm.saveData(passport);
+    	List<RegistrForm> sss = regForm.saveData(passport);
     	
-        System.out.println( "Hello World!" );
+        System.out.println(sss.get(0).toString());
     }
 }
