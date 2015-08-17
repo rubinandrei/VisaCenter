@@ -29,7 +29,7 @@ public class RegistrationFormService implements IEventsController<RegistrForm>  
 	} 
 	}
 	public List<?> getData() {
-		// TODO Auto-generated method stub
+	
 		return null;
 	}
 
@@ -71,19 +71,17 @@ public class RegistrationFormService implements IEventsController<RegistrForm>  
 			
 				
 			}catch (InstantiationException e) {
-					// TODO Auto-generated catch block
-				
+					
+				LOG.error("ERROR!:"+ e.getMessage());
 			} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				LOG.error("ERROR!:"+ e.getMessage());
+					
 			} catch (SecurityException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				LOG.error("ERROR!:"+ e.getMessage());					
 			}catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				LOG.error("ERROR!:"+ e.getMessage());
+					
 			} catch (DaoPropertyUtilExeption e) {
-				// TODO Auto-generated catch block
 				LOG.error("ERROR!:"+ e.getMessage());
 			}
             if(saveresults.isEmpty()){
@@ -97,9 +95,9 @@ public class RegistrationFormService implements IEventsController<RegistrForm>  
 		
 	}
 
-	public RegistrForm updateData() {
-		// TODO Auto-generated method stub
+	public  RegistrForm updateData() {
 		return null;
+		
 	}
 
 	public RegistrForm deleteData() {

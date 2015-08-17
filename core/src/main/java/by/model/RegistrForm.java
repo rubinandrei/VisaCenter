@@ -254,5 +254,190 @@ public class RegistrForm extends AbstractModelImpl implements Serializable,Clone
 		 
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((dp_date_birth == null) ? 0 : dp_date_birth.hashCode());
+		result = prime * result
+				+ ((dp_first_name == null) ? 0 : dp_first_name.hashCode());
+		result = prime * result + dp_id;
+		result = prime
+				* result
+				+ ((dp_passport_indent_nb == null) ? 0 : dp_passport_indent_nb
+						.hashCode());
+		result = prime * result
+				+ ((dp_passport_nb == null) ? 0 : dp_passport_nb.hashCode());
+		result = prime
+				* result
+				+ ((dp_passport_valid_data == null) ? 0
+						: dp_passport_valid_data.hashCode());
+		result = prime * result
+				+ ((dp_second_name == null) ? 0 : dp_second_name.hashCode());
+		result = prime * result
+				+ ((rf_datareg == null) ? 0 : rf_datareg.hashCode());
+		result = prime
+				* result
+				+ ((rf_declarant_email == null) ? 0 : rf_declarant_email
+						.hashCode());
+		result = prime
+				* result
+				+ ((rf_declarant_password == null) ? 0 : rf_declarant_password
+						.hashCode());
+		result = prime * result + rf_id;
+		result = prime * result + rf_status;
+		result = prime * result + vt_action_type;
+		result = prime * result + vt_actionday_count;
+		result = prime * result + ((vt_cost == null) ? 0 : vt_cost.hashCode());
+		result = prime * result + vt_id;
+		result = prime * result + ((vt_name == null) ? 0 : vt_name.hashCode());
+		result = prime * result
+				+ ((vt_short_name == null) ? 0 : vt_short_name.hashCode());
+		result = prime * result + vt_status;
+		result = prime
+				* result
+				+ ((vt_terminated_time == null) ? 0 : vt_terminated_time
+						.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof RegistrForm))
+			return false;
+		RegistrForm other = (RegistrForm) obj;
+		if (dp_date_birth == null) {
+			if (other.dp_date_birth != null)
+				return false;
+		} else if (!dp_date_birth.equals(other.dp_date_birth))
+			return false;
+		if (dp_first_name == null) {
+			if (other.dp_first_name != null)
+				return false;
+		} else if (!dp_first_name.equals(other.dp_first_name))
+			return false;
+		if (dp_id != other.dp_id)
+			return false;
+		if (dp_passport_indent_nb == null) {
+			if (other.dp_passport_indent_nb != null)
+				return false;
+		} else if (!dp_passport_indent_nb.equals(other.dp_passport_indent_nb))
+			return false;
+		if (dp_passport_nb == null) {
+			if (other.dp_passport_nb != null)
+				return false;
+		} else if (!dp_passport_nb.equals(other.dp_passport_nb))
+			return false;
+		if (dp_passport_valid_data == null) {
+			if (other.dp_passport_valid_data != null)
+				return false;
+		} else if (!dp_passport_valid_data.equals(other.dp_passport_valid_data))
+			return false;
+		if (dp_second_name == null) {
+			if (other.dp_second_name != null)
+				return false;
+		} else if (!dp_second_name.equals(other.dp_second_name))
+			return false;
+		if (rf_datareg == null) {
+			if (other.rf_datareg != null)
+				return false;
+		} else if (!rf_datareg.equals(other.rf_datareg))
+			return false;
+		if (rf_declarant_email == null) {
+			if (other.rf_declarant_email != null)
+				return false;
+		} else if (!rf_declarant_email.equals(other.rf_declarant_email))
+			return false;
+		if (rf_declarant_password == null) {
+			if (other.rf_declarant_password != null)
+				return false;
+		} else if (!rf_declarant_password.equals(other.rf_declarant_password))
+			return false;
+		if (rf_id != other.rf_id)
+			return false;
+		if (rf_status != other.rf_status)
+			return false;
+		if (vt_action_type != other.vt_action_type)
+			return false;
+		if (vt_actionday_count != other.vt_actionday_count)
+			return false;
+		if (vt_cost == null) {
+			if (other.vt_cost != null)
+				return false;
+		} else if (!vt_cost.equals(other.vt_cost))
+			return false;
+		if (vt_id != other.vt_id)
+			return false;
+		if (vt_name == null) {
+			if (other.vt_name != null)
+				return false;
+		} else if (!vt_name.equals(other.vt_name))
+			return false;
+		if (vt_short_name == null) {
+			if (other.vt_short_name != null)
+				return false;
+		} else if (!vt_short_name.equals(other.vt_short_name))
+			return false;
+		if (vt_status != other.vt_status)
+			return false;
+		if (vt_terminated_time == null) {
+			if (other.vt_terminated_time != null)
+				return false;
+		} else if (!vt_terminated_time.equals(other.vt_terminated_time))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "RegistrForm ["
+				+ (dp_first_name != null ? "dp_first_name=" + dp_first_name
+						+ ", " : "")
+				+ "dp_id="
+				+ dp_id
+				+ ", "
+				+ (dp_second_name != null ? "dp_second_name=" + dp_second_name
+						+ ", " : "")
+				+ (dp_passport_nb != null ? "dp_passport_nb=" + dp_passport_nb
+						+ ", " : "")
+				+ (dp_date_birth != null ? "dp_date_birth=" + dp_date_birth
+						+ ", " : "")
+				+ (dp_passport_valid_data != null ? "dp_passport_valid_data="
+						+ dp_passport_valid_data + ", " : "")
+				+ (dp_passport_indent_nb != null ? "dp_passport_indent_nb="
+						+ dp_passport_indent_nb + ", " : "")
+				+ "vt_id="
+				+ vt_id
+				+ ", "
+				+ (vt_name != null ? "vt_name=" + vt_name + ", " : "")
+				+ "vt_actionday_count="
+				+ vt_actionday_count
+				+ ", vt_status="
+				+ vt_status
+				+ ", "
+				+ (vt_terminated_time != null ? "vt_terminated_time="
+						+ vt_terminated_time + ", " : "")
+				+ (vt_cost != null ? "vt_cost=" + vt_cost + ", " : "")
+				+ "vt_action_type="
+				+ vt_action_type
+				+ ", "
+				+ (vt_short_name != null ? "vt_short_name=" + vt_short_name
+						+ ", " : "")
+				+ "rf_id="
+				+ rf_id
+				+ ", "
+				+ (rf_datareg != null ? "rf_datareg=" + rf_datareg + ", " : "")
+				+ (rf_declarant_email != null ? "rf_declarant_email="
+						+ rf_declarant_email + ", " : "")
+				+ (rf_declarant_password != null ? "rf_declarant_password="
+						+ rf_declarant_password + ", " : "") + "rf_status="
+				+ rf_status + "]";
+	}
+
 
 }

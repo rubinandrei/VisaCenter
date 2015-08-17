@@ -61,7 +61,7 @@ public class RegistrFormDaoImpl extends AbstractDaoImpl<RegistrForm> implements 
 		RegistrForm visatype = new RegistrForm(); 
     	String query;
 		try {
-			query = DaoStatment.daoREAD.getStatment("dbsvript/"+propSqlFolder, "Select.all");			
+			query = DaoStatment.daoREAD.getStatment("dbsvript/"+propSqlFolder, "Select.all.byId");			
 			listFiels = get(visatype,keys,query);	
 			
 		} catch (DaoPropertyUtilExeption e) {
@@ -122,7 +122,7 @@ public class RegistrFormDaoImpl extends AbstractDaoImpl<RegistrForm> implements 
 	
 			throws InstantiationException, IllegalAccessException,
 			SecurityException, DaoPropertyUtilExeption {
-		 String query = DaoStatment.daoREAD.getStatment("dbsvript/"+propSqlFolder, sqlStatment);
+		 String query = DaoStatment.daoREAD.getStatment("dbsvript/"+propSqlFolder, sqlStatment.length()>0?sqlStatment:"Select.all.byPassword");
 	    	
        	 List<RegistrForm> listFiels = new ArrayList<RegistrForm>();
        

@@ -14,26 +14,13 @@
   <url>http://maven.apache.org</url> 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-  
-    <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>itacademy.visacenter.beckend</groupId>
-        <artifactId>core</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-        <type>jar</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>  
+  </properties>  
   <dependencies> 
   <dependency>
             <groupId>itacademy.visacenter.beckend</groupId>
             <artifactId>core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <type>jar</type>
-            <scope>import</scope>            
+            <scope>provided</scope>
+            <version>1.0-SNAPSHOT</version>
   </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -42,7 +29,7 @@
       <scope>test</scope>
     </dependency>
      <dependency>
-    	<groupId>javax.servlet</groupId>
+    	<groupId>javax.servlet</groupId><!--$NO-MVN-MAN-VER$-->
     	<artifactId>javax.servlet-api</artifactId>
   		<version>3.1.0</version>
   		<scope>provided</scope>

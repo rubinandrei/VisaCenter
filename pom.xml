@@ -7,10 +7,9 @@
   <packaging>pom</packaging>
   <name>VisaCenter</name>
   <modules>
+    <module>core</module>
     <module>web</module>    
     <module>aps</module>
-    <module>core</module>
-    <module>cor</module>
     <module>Web-admin</module>
   </modules>
 </project>

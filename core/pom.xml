@@ -9,7 +9,7 @@
   </parent>    
   <groupId>itacademy.visacenter.beckend</groupId>
   <artifactId>core</artifactId>
-  <!--  version>0.0.1-SNAPSHOT</version-->
+  <version>1.0-SNAPSHOT</version>
   <name>core</name>
   <url>http://maven.apache.org</url>
   <properties>
@@ -80,7 +80,7 @@
           <driver>com.mysql.jdbc.Driver</driver>
           <url>${db.host}</url>
           <username>${db.user}</username>
-          <password>${db.pass}</password>
+          <password></password>
         </configuration>
     <executions>
         <execution>
