@@ -75,7 +75,7 @@ public class RegistrFormDaoImpl extends AbstractDaoImpl<RegistrForm> implements 
     @Override
     public void updateRecord(Object ... keys) throws DaoPropertyUtilExeption{
 
-    		String query = DaoStatment.daoUPDATE.getStatment("dbsvript/"+propSqlFolder, "Update.all");
+    		String query = DaoStatment.daoUPDATE.getStatment("dbsvript/"+propSqlFolder, "Update.all.byId");
     		update(keys,query);
     
     }
@@ -86,28 +86,7 @@ public class RegistrFormDaoImpl extends AbstractDaoImpl<RegistrForm> implements 
     		String query = DaoStatment.daoDELETE.getStatment("dbsvript/"+propSqlFolder, "Delete.byId");
     		delete(keys,query);
     	
-    }
-    
-     public List<DeclarPassport> getPassbyPassportNb(String passportNb){
-    	 
-    	 List<DeclarPassport> listpassport = new ArrayList<DeclarPassport>();   	   
-    	 try {
-			 listpassport = passport.getCustomRecord("Getby.passport_nb", passportNb);
-		} catch (InstantiationException e) {
-			
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			
-			e.printStackTrace();
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
-    	 return listpassport;
-     }
+    }   
 
 	@Override
 	public int saveCustomRecord(String sqlStatment, Object... keys) throws ClassNotFoundException, DaoPropertyUtilExeption {

@@ -1,7 +1,7 @@
 package by.model;
 
 import java.io.Serializable;
-
+import by.model.FieldName;
 public class AvailableRegestrations 
 	extends AbstractModelImpl implements Serializable,Cloneable{
 

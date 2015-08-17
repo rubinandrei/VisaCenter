@@ -3,6 +3,7 @@ package by.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import by.model.FieldName;
 
 
 
@@ -15,7 +16,7 @@ public class DeclarPassport extends AbstractModelImpl implements Serializable,Cl
 	private String dp_passport_nb;
 	private String dp_date_birth;
 	private String dp_passport_valid_data;
-	private String dp_password_indent_nb;
+	private String dp_passport_indent_nb;
 
 	private int dp_id;
 	public int getDp_id() {
@@ -66,12 +67,12 @@ public class DeclarPassport extends AbstractModelImpl implements Serializable,Cl
 	public void setDp_passport_valid_data(String dp_passport_valid_data) {
 		this.dp_passport_valid_data = dp_passport_valid_data;
 	}
-	public String getDp_password_indent_nb() {
-		return dp_password_indent_nb;
+	public String getDp_passport_indent_nb() {
+		return dp_passport_indent_nb;
 	}
-	@FieldName(fieldname="dp_password_indent_nb")
-	public void setDp_password_indent_nb(String dp_password_indent_nb) {
-		this.dp_password_indent_nb = dp_password_indent_nb;
+	@FieldName(fieldname="dp_passport_indent_nb")
+	public void setDp_passport_indent_nb(String dp_password_indent_nb) {
+		this.dp_passport_indent_nb = dp_password_indent_nb;
 	}
 	
 
@@ -87,7 +88,7 @@ public class DeclarPassport extends AbstractModelImpl implements Serializable,Cl
 				getDp_second_name(),		
 				getDp_date_birth(),
 				getDp_passport_nb(),
-				getDp_password_indent_nb(),
+				getDp_passport_indent_nb(),
 				getDp_passport_valid_data()
 		       );
 		 
@@ -109,7 +110,7 @@ public class DeclarPassport extends AbstractModelImpl implements Serializable,Cl
 						: dp_passport_valid_data.hashCode());
 		result = prime
 				* result
-				+ ((dp_password_indent_nb == null) ? 0 : dp_password_indent_nb
+				+ ((dp_passport_indent_nb == null) ? 0 : dp_passport_indent_nb
 						.hashCode());
 		result = prime * result
 				+ ((dp_second_name == null) ? 0 : dp_second_name.hashCode());
@@ -158,11 +159,11 @@ public class DeclarPassport extends AbstractModelImpl implements Serializable,Cl
 		} else if (!dp_passport_valid_data.equals(other.dp_passport_valid_data)) {
 			return false;
 		}
-		if (dp_password_indent_nb == null) {
-			if (other.dp_password_indent_nb != null) {
+		if (dp_passport_indent_nb == null) {
+			if (other.dp_passport_indent_nb != null) {
 				return false;
 			}
-		} else if (!dp_password_indent_nb.equals(other.dp_password_indent_nb)) {
+		} else if (!dp_passport_indent_nb.equals(other.dp_passport_indent_nb)) {
 			return false;
 		}
 		if (dp_second_name == null) {
@@ -187,8 +188,8 @@ public class DeclarPassport extends AbstractModelImpl implements Serializable,Cl
 						+ ", " : "")
 				+ (dp_passport_valid_data != null ? "dp_passport_valid_data="
 						+ dp_passport_valid_data + ", " : "")
-				+ (dp_password_indent_nb != null ? "dp_password_indent_nb="
-						+ dp_password_indent_nb + ", " : "") + "dp_id=" + dp_id
+				+ (dp_passport_indent_nb != null ? "dp_password_indent_nb="
+						+ dp_passport_indent_nb + ", " : "") + "dp_id=" + dp_id
 				+ "]";
 	}
 	

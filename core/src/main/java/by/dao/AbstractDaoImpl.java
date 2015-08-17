@@ -163,9 +163,6 @@ public abstract  class AbstractDaoImpl<T extends AbstractModelImpl>{// implement
     	        	 
     	  
     	  List<T> daoList = new ArrayList<T>(); 
-   
-    	
-    	  
     	  try {
 			while(resultSet.next()){
 				 T modelObject = extracted(t);
@@ -257,6 +254,7 @@ public abstract  class AbstractDaoImpl<T extends AbstractModelImpl>{// implement
           	return resultSet;
     		
     	  }
+      
   
 	private T extracted(T t) throws InstantiationException,
 			IllegalAccessException {

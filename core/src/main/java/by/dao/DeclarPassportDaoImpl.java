@@ -117,6 +117,7 @@ public class DeclarPassportDaoImpl extends AbstractDaoImpl<DeclarPassport> imple
     		update(keys,query);
     	 
     }
+
     
     @Override
     public void updateCustomRecord(String sqlStatment,Object ... keys){

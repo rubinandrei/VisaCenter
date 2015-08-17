@@ -3,6 +3,7 @@ package by.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import by.model.FieldName;
 
 public class RegistrForm extends AbstractModelImpl implements Serializable,Cloneable{
 
@@ -112,7 +113,7 @@ public class RegistrForm extends AbstractModelImpl implements Serializable,Clone
 		return vt_id;
 	}
 
-
+	@FieldName(fieldname="vt_id")
 	public void setVt_id(int vt_id) {
 		this.vt_id = vt_id;
 	}
@@ -192,7 +193,7 @@ public class RegistrForm extends AbstractModelImpl implements Serializable,Clone
 		return rf_id;
 	}
 
-
+	@FieldName(fieldname="rf_id")
 	public void setRf_id(int rf_id) {
 		this.rf_id = rf_id;
 	}
@@ -351,13 +352,8 @@ public class RegistrForm extends AbstractModelImpl implements Serializable,Clone
 		if (rf_declarant_email == null) {
 			if (other.rf_declarant_email != null)
 				return false;
-		} else if (!rf_declarant_email.equals(other.rf_declarant_email))
-			return false;
-		if (rf_declarant_password == null) {
-			if (other.rf_declarant_password != null)
-				return false;
-		} else if (!rf_declarant_password.equals(other.rf_declarant_password))
-			return false;
+		} else if (!rf_declarant_email.toLowerCase().equals(other.rf_declarant_email.toLowerCase()))
+			return false;		
 		if (rf_id != other.rf_id)
 			return false;
 		if (rf_status != other.rf_status)
