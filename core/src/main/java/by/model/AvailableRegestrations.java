@@ -9,7 +9,16 @@ public class AvailableRegestrations
 	private int ar_id;
     private int ar_count;
     private String ar_day;
+    private int status;
+   
     
+	public int getStatus() {
+		return status;
+	}
+	@FieldName(fieldname="status")
+	public void setStatus(int status) {
+		this.status = status;
+	}
 	public int getAr_id() {
 		return ar_id;
 	}
@@ -39,7 +48,7 @@ public class AvailableRegestrations
 	
 		public Object[] getAll() {	
 			return getValues(
-					getAr_id()
+			getAr_count()
 			,getAr_day());				
 			
 		}
@@ -82,7 +91,7 @@ public class AvailableRegestrations
 		}
 		@Override
 		public String toString() {
-			return "AvailableRegestrations [ar_id=" + ar_id + ", ar_count="
+			return "AvailableRegestrationsExeption [ar_id=" + ar_id + ", ar_count="
 					+ ar_count + ", "
 					+ (ar_day != null ? "ar_day=" + ar_day : "") + "]";
 		}

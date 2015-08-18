@@ -29,7 +29,7 @@ public class RegistrForm extends AbstractModelImpl implements Serializable,Clone
 	private String rf_declarant_email;
 	private String rf_declarant_password;
 	private int rf_status;
-	
+	private boolean isSeleted;
 	
 	
 	
@@ -37,6 +37,14 @@ public class RegistrForm extends AbstractModelImpl implements Serializable,Clone
 
 	
 	
+	public boolean isSeleted() {
+		return isSeleted;
+	}
+
+	public void setSeleted(boolean isSeleted) {
+		this.isSeleted = isSeleted;
+	}
+
 	public int getDp_id() {
 		return dp_id;
 	}

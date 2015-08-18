@@ -1,1 +1,0 @@
-Delete.user=DELETE FROM systemusers WHERE su_id =?;

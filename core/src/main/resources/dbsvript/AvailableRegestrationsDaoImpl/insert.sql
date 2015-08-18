@@ -1,1 +1,1 @@
-insert.allparam.custom = INSERT INTO systemusers(su_login,su_password,su_admintyp) VALUES(?,MD5(concat(?)),?)
+insert.AvalibleCountDay = INSERT INTO availablereg(ar_count, ar_day) VALUES(?,date(?));

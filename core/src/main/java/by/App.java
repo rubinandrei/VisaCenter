@@ -3,8 +3,11 @@ package by;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -13,6 +16,7 @@ import by.dao.DeclarPassportDaoImpl;
 import by.dao.UserDaoImpl;
 import by.dao.VisaTypeDaoImpl;
 import by.exeption.DaoPropertyUtilExeption;
+import by.exeption.DeclarPassportDaoExeption;
 import by.model.DeclarPassport;
 import by.model.RegistrForm;
 import by.model.Visatype;
@@ -24,7 +28,7 @@ public class App
 {
 	 private static final Logger LOG = Logger.getLogger(App.class);
 	 
-    public static void main( String[] args ) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SecurityException {
+    public static void main( String[] args )   {
     
     	DeclarPassport aaa = new DeclarPassport();
     	
@@ -32,22 +36,30 @@ public class App
     	aaa.setDp_first_name("Ivan");
     	aaa.setDp_passport_nb("MR34567");    	
     	aaa.setDp_passport_indent_nb("aas2341353455FDHRyr6y");
-    	aaa.setDp_passport_valid_data("2019-07-31");
+    	aaa.setDp_passport_valid_data("2010-07-31");
     	aaa.setDp_second_name("Ivanov");
-    	//aaa.setRf_declarant_email("andrew.a.rubin@gmail.com");
-    	//aaa.setRf_declarant_password("MR34567");
-    //	aaa.setVt_action_type(1);
     	
     	List<DeclarPassport> passport  = new ArrayList<DeclarPassport>();
     	passport.add(aaa);
-    	DeclarPassportDaoImpl DeclarPassport = new DeclarPassportDaoImpl();
-    	DeclarPassport.saveRecord(passport);
-    	
-    	if(passport.isEmpty()){
-    		LOG.info("empty");
-    		passport.add(new DeclarPassport());
+    	DeclarPassportDaoImpl DeclarPassport=null;
+		try {
+			DeclarPassport = new DeclarPassportDaoImpl();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Set<Integer>  intr = new HashSet<Integer>(); 
+    	try {
+    		intr = DeclarPassport.saveRecord(passport);
+		} catch (DeclarPassportDaoExeption e) {
+			// TODO Auto-generated catch block
+			LOG.error(e,e.fillInStackTrace());
+		}
+		
+    	if(intr.isEmpty()){
+    		LOG.info(intr);    	
     	}else{
-    		LOG.info(passport);
+    		LOG.info("!!!");
     	}
     	
 		//UserDaoImpl vt = new UserDaoImpl();

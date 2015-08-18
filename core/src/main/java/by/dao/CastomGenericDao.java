@@ -5,15 +5,18 @@ import java.util.List;
 import java.util.Set;
 
 import by.exeption.DaoPropertyUtilExeption;
+import by.exeption.DeclarPassportDaoExeption;
+import by.exeption.RegistrFormExeption;
+import by.exeption.UserDaoExeption;
 import by.model.DeclarPassport;
 
 
 
 public interface CastomGenericDao<T> {
 	
-	 int saveCustomRecord(String sqlStatment,Object ... keys) throws ClassNotFoundException, IOException, DaoPropertyUtilExeption;
-	 List<T> getCustomRecord(String sqlStatment,Object ... keys) throws InstantiationException, IllegalAccessException, SecurityException,IOException, DaoPropertyUtilExeption;
-	 void updateCustomRecord(String sqlStatment,Object ... keys) throws IOException, DaoPropertyUtilExeption;
+	 int saveCustomRecord(String sqlStatment,Object ... keys) throws DaoPropertyUtilExeption, DeclarPassportDaoExeption, RegistrFormExeption, UserDaoExeption;
+	 List<T> getCustomRecord(String sqlStatment,Object ... keys) throws DaoPropertyUtilExeption, RegistrFormExeption, DeclarPassportDaoExeption;
+	 void updateCustomRecord(String sqlStatment,Object ... keys) throws DaoPropertyUtilExeption, RegistrFormExeption, DeclarPassportDaoExeption;
 	 
 
 }

@@ -43,15 +43,14 @@ public abstract  class AbstractDaoImpl<T extends AbstractModelImpl>{// implement
 	}
 
 
-	protected  Set<Integer> add(String query,List<T> value ) {
+	protected  Set<Integer> add(String query,List<T> value ) throws ClassNotFoundException, SQLException {
 		
 		 
 		PreparedStatement preparedStatement = null;	
 		Set<Integer> resultId = new HashSet<Integer>();
 		Validate.notNull(value, "value is not be null");		
-		int resultSet = -1;
-		
-		try {
+		int resultSet = -1;		
+	
 			    conn =  MySQLconnection.getConnection();
 
 		    	for(T t:value)
@@ -82,11 +81,7 @@ public abstract  class AbstractDaoImpl<T extends AbstractModelImpl>{// implement
 	    			
 				}				
 			
-		} catch (SQLException e) {
-			LOG.error("ERROR!: ", e.fillInStackTrace());
-		} catch (Exception e) {
-			LOG.error("ERROR!: ", e.fillInStackTrace());
-		}
+	
 		
 		
 		return resultId;
@@ -130,40 +125,36 @@ public abstract  class AbstractDaoImpl<T extends AbstractModelImpl>{// implement
     }
 	
 
-	protected  List <T> get(final T t,Object[] conditionsKey,String query  )  {
+	protected  List <T> get(final T t,Object[] conditionsKey,String query  ) throws SQLException, InstantiationException, IllegalAccessException, SecurityException  {
 		
 		
 		 
       	ResultSet result = null;		
       	Validate.notNull(t, "Model is not be null");      
 		PreparedStatement preparedStatement;		
-			try{
-				conn =  MySQLconnection.getConnection();
+				try {
+					conn =  MySQLconnection.getConnection();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				preparedStatement = conn.prepareStatement(query);
 				if(conditionsKey.length > 0){
 					int i= 1;
 					for(Object conditions:conditionsKey){
 		    			preparedStatement.setObject(i,conditions);
 		    			i++;
-		    			}	    		       	
+		    			}
 				}
-				result = preparedStatement.executeQuery();
-				
-		
-		}catch (SQLException  e) {			
-			LOG.error("ERROR!: ", e.fillInStackTrace());
-		}catch (ClassNotFoundException  e) {			
-		LOG.error("ERROR!: ", e.fillInStackTrace());
-	    }
+				result = preparedStatement.executeQuery();			
 			return getResults(t.getClass().getMethods(),result,t);
 	}
 
 
-        private  List <T> getResults(Method[] classMethods,ResultSet resultSet, T t) {    	  
+        private  List <T> getResults(Method[] classMethods,ResultSet resultSet, T t) throws InstantiationException, IllegalAccessException, SQLException {    	  
     	        	 
     	  
-    	  List<T> daoList = new ArrayList<T>(); 
-    	  try {
+    	  List<T> daoList = new ArrayList<T>();    
 			while(resultSet.next()){
 				 T modelObject = extracted(t);
 				
@@ -203,21 +194,16 @@ public abstract  class AbstractDaoImpl<T extends AbstractModelImpl>{// implement
 				  daoList.add(modelObject);
 				  
 			  }
-		} catch (SQLException e){
-			LOG.error("ERROR!: ", e.fillInStackTrace());
-		}catch (InstantiationException e){
-			LOG.error("ERROR!: ", e.fillInStackTrace());
-		}catch (IllegalAccessException e){			
-			LOG.error("ERROR!: ", e.fillInStackTrace());
-		}
+	
     	  return daoList;
       }
       
-	protected  int delete(Object[] conditionsKey, String query){
+	protected  int delete(Object[] conditionsKey, String query) throws ClassNotFoundException, SQLException{
+		  conn =  MySQLconnection.getConnection();
 		Validate.notNull(conditionsKey,"Model is not be null");
         PreparedStatement preparedStatement = null;
-        int resultSet = -1;	
-        try {
+        int resultSet = -1;
+        
         		preparedStatement = conn.prepareStatement(query);	    
 	    		
 	    		for(Object conditions:conditionsKey){
@@ -226,31 +212,23 @@ public abstract  class AbstractDaoImpl<T extends AbstractModelImpl>{// implement
 	    			}	    		
 	    		
 	    		
-			}catch (SQLException e) {		
-				LOG.error("ERROR!: ", e.fillInStackTrace());
-			} 
-	
+			
         	return resultSet;
   		
   	  }      
       
-      protected  int update(Object[] conditionsKey, String query){
+      protected  int update(Object[] conditionsKey, String query) throws ClassNotFoundException,SQLException{
     	  Validate.notNull(conditionsKey,"Model is not be null");
+    	  conn =  MySQLconnection.getConnection();
           PreparedStatement preparedStatement = null;
-          int resultSet = -1;	
-          try {
+          int resultSet = -1;
           		preparedStatement = conn.prepareStatement(query);	    
   	    		int i= 1;
   	    		for(Object conditions:conditionsKey){
   	    			preparedStatement.setObject(i,conditions);
   	    			i++;
   	    			}	    		
-  	    		resultSet = preparedStatement.executeUpdate();
-  	    		
-  			}catch (SQLException e) {		
-  				LOG.error("ERROR!: ", e.fillInStackTrace());
-  			} 
-  	
+  	    		resultSet = preparedStatement.executeUpdate();  	    		
           	return resultSet;
     		
     	  }

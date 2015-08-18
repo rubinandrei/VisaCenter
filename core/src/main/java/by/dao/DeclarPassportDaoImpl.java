@@ -1,7 +1,7 @@
 package by.dao;
 
 
-import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -9,6 +9,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 import by.exeption.DaoPropertyUtilExeption;
+import by.exeption.DeclarPassportDaoExeption;
 import by.model.DeclarPassport;
 
 
@@ -17,13 +18,13 @@ public class DeclarPassportDaoImpl extends AbstractDaoImpl<DeclarPassport> imple
 	private String  propSqlFolder = this.getClass().getSimpleName();
 	private static final Logger LOG = Logger.getLogger(DeclarPassportDaoImpl.class);
 	
-    public DeclarPassportDaoImpl() throws ClassNotFoundException {
+    public DeclarPassportDaoImpl() throws ClassNotFoundException  {
 		super();
 	}
     
     
     @Override
-    public Set<Integer> saveRecord(List<DeclarPassport> list ) { 
+    public Set<Integer> saveRecord(List<DeclarPassport> list ) throws DeclarPassportDaoExeption { 
     
     	    Set <Integer> result=null;
     	    String query = null;
@@ -32,7 +33,11 @@ public class DeclarPassportDaoImpl extends AbstractDaoImpl<DeclarPassport> imple
 				result = add(query,list);
 			} catch (DaoPropertyUtilExeption e) {
 				// TODO Auto-generated catch block
-				LOG.error("ERROR!: "+e.getMessage(),e.fillInStackTrace());
+				LOG.error(" DaoPropertyUtilExeption ERROR!: "+e.getMessage(),e.fillInStackTrace());
+			} catch (ClassNotFoundException e) {
+				throw new DeclarPassportDaoExeption ("saveRecord : ClassNotFoundException "+ e.getMessage(),e.fillInStackTrace());				
+			} catch (SQLException e) {
+				throw new DeclarPassportDaoExeption ("saveRecord : SQLException"+ e.getMessage(),e.fillInStackTrace());		
 			}
 			return result;
     	   
@@ -41,14 +46,16 @@ public class DeclarPassportDaoImpl extends AbstractDaoImpl<DeclarPassport> imple
     }
     
     @Override
-    public int saveCustomRecord(String sqlStatment, Object ...keys ) throws ClassNotFoundException{    
-    	try {
-    	    String query = DaoStatment.daoINSERT.getStatment("dbsvript/"+propSqlFolder, sqlStatment);
-			return add(query,keys);
-    	} catch (DaoPropertyUtilExeption e) {
-			// TODO Auto-generated catch block
-			LOG.error("ERROR!: "+e.getMessage(),e.fillInStackTrace());
-		}
+    public int saveCustomRecord(String sqlStatment, Object ...keys ) throws DeclarPassportDaoExeption {    
+    	
+    		try {
+    		    String query = DaoStatment.daoINSERT.getStatment("dbsvript/"+propSqlFolder, sqlStatment);    			
+				return add(query,keys);
+			} catch (ClassNotFoundException e) {
+				throw new DeclarPassportDaoExeption ("InstantiationException : "+ e.getMessage(),e.fillInStackTrace());		
+    	    } catch (DaoPropertyUtilExeption e) {		
+			   LOG.error("DaoPropertyUtilExeption ERROR!: "+e.getMessage(),e.fillInStackTrace());
+		    }
 			
 		
 		
@@ -57,103 +64,151 @@ public class DeclarPassportDaoImpl extends AbstractDaoImpl<DeclarPassport> imple
     
  
     @Override
-    public List<DeclarPassport> getRecord(Object ... keys) throws InstantiationException, IllegalAccessException, SecurityException{     	
+    public List<DeclarPassport> getRecord(Object ... keys) throws DeclarPassportDaoExeption {     	
     
 	 String query;
 	 List<DeclarPassport> listFiels = new ArrayList<DeclarPassport>();
 	 	try {
 	 		query = DaoStatment.daoREAD.getStatment("dbsvript/"+propSqlFolder, "Select.all");
-			DeclarPassport password = new DeclarPassport(); 
-					
-  		  	
-	 	} catch (DaoPropertyUtilExeption e) {
-		
-	 		
-	 	}
+			DeclarPassport passpord = new DeclarPassport();			
+				listFiels  = get(passpord,keys,query);
+			} catch (InstantiationException e) {
+				throw new DeclarPassportDaoExeption ("InstantiationException : "+ e.getMessage(),e.fillInStackTrace());	
+			} catch (IllegalAccessException e) {
+				throw new DeclarPassportDaoExeption ("IllegalAccessException : "+ e.getMessage(),e.fillInStackTrace());	
+			} catch (SecurityException e) {
+				throw new DeclarPassportDaoExeption ("SecurityException : "+ e.getMessage(),e.fillInStackTrace());	
+			} catch (SQLException e) {
+				throw new DeclarPassportDaoExeption ("SQLException : "+ e.getMessage(),e.fillInStackTrace());
+			} catch (DaoPropertyUtilExeption e) {		
+				 LOG.error("DaoPropertyUtilExeption ERROR!: "+e.getMessage(),e.fillInStackTrace());
+		    }
+	 	
 	 	return listFiels;
     }
     
-    public List<DeclarPassport> getRecordbyPassportNamber(Object ... keys) throws InstantiationException, IllegalAccessException, SecurityException{     	
+    public List<DeclarPassport> getRecordbyPassportNamber(Object ... keys) throws DeclarPassportDaoExeption{     	
         
    	 String query;
    	 List<DeclarPassport> listFiels = new ArrayList<DeclarPassport>();
-   	 	try {
-   	 		query = DaoStatment.daoREAD.getStatment("dbsvript/"+propSqlFolder, "Getby.passport_nb");
-   			DeclarPassport passport = new DeclarPassport(); 
-   			listFiels = get(passport,keys,query);			
-     		  	
-   	 	} catch (DaoPropertyUtilExeption e) {
-   		
    	 		
-   	 	}
+   			DeclarPassport passport = new DeclarPassport(); 
+   			try {
+   				query = DaoStatment.daoREAD.getStatment("dbsvript/"+propSqlFolder, "Getby.passport_nb");			
+					listFiels = get(passport,keys,query);
+				} catch (InstantiationException e) {
+					throw new DeclarPassportDaoExeption ("ClassNotFoundException : "+ e.getMessage(),e.fillInStackTrace());					
+				} catch (IllegalAccessException e) {
+					throw new DeclarPassportDaoExeption ("ClassNotFoundException : "+ e.getMessage(),e.fillInStackTrace());
+				} catch (SecurityException e) {
+					throw new DeclarPassportDaoExeption ("ClassNotFoundException : "+ e.getMessage(),e.fillInStackTrace());				
+				} catch (SQLException e) {
+					throw new DeclarPassportDaoExeption ("ClassNotFoundException : "+ e.getMessage(),e.fillInStackTrace());	
+				}catch (DaoPropertyUtilExeption e) {		
+					 LOG.error("DaoPropertyUtilExeption ERROR!: "+e.getMessage(),e.fillInStackTrace());
+			    }		
    	 	return listFiels;
        }
     
     @Override
-    public List<DeclarPassport> getCustomRecord(String sqlStatment,Object ... keys) throws InstantiationException, IllegalAccessException, SecurityException,IOException{     	
+    public List<DeclarPassport> getCustomRecord(String sqlStatment,Object ... keys) throws DeclarPassportDaoExeption{   	
         
    	 String query;
    	 List<DeclarPassport> listFiels = new ArrayList<DeclarPassport>();
-   		try {
-   			query = DaoStatment.daoREAD.getStatment("dbsvript/"+propSqlFolder, sqlStatment);
-   			DeclarPassport visatype = new DeclarPassport(); 
-   			listFiels = get(visatype,keys,query);			
- 	
-		}catch (DaoPropertyUtilExeption e) {
-			
-		}  		    	
+   		
+   			
+   			DeclarPassport visatype = new DeclarPassport();
+   			
+   			try {
+   				query = DaoStatment.daoREAD.getStatment("dbsvript/"+propSqlFolder, sqlStatment);
+				listFiels = get(visatype,keys,query);
+   			} catch (InstantiationException e) {
+				throw new DeclarPassportDaoExeption ("InstantiationException : "+ e.getMessage(),e.fillInStackTrace());					
+			} catch (IllegalAccessException e) {
+				throw new DeclarPassportDaoExeption ("IllegalAccessException : "+ e.getMessage(),e.fillInStackTrace());
+			} catch (SecurityException e) {
+				throw new DeclarPassportDaoExeption ("SecurityException : "+ e.getMessage(),e.fillInStackTrace());				
+			} catch (SQLException e) {
+				throw new DeclarPassportDaoExeption ("SQLException : "+ e.getMessage(),e.fillInStackTrace());	
+			}catch (DaoPropertyUtilExeption e) {		
+				 LOG.error("DaoPropertyUtilExeption ERROR!: "+e.getMessage(),e.fillInStackTrace());
+		    }		
      		return listFiels;
     }
     
     @Override
-    public void updateRecord(Object ... keys){
+    public int  updateRecord(Object ... keys) throws DeclarPassportDaoExeption  {
  
     		String query = null;
-			try {
-				query = DaoStatment.daoUPDATE.getStatment("dbsvript/"+propSqlFolder, "Ubdate.all");
+			int result = -1;
+								
+    		try {
+    			query = DaoStatment.daoUPDATE.getStatment("dbsvript/"+propSqlFolder, "Ubdate.all");
+    			result = update(keys,query);
+			} catch (ClassNotFoundException e) {
+				throw new DeclarPassportDaoExeption ("SQLException : "+ e.getMessage(),e.fillInStackTrace());	
+			} catch (SQLException e) {
+				throw new DeclarPassportDaoExeption ("SQLException : "+ e.getMessage(),e.fillInStackTrace());	
 			} catch (DaoPropertyUtilExeption e) {
-				LOG.error("ERROR!: "+e.getMessage(),e.fillInStackTrace());
+				LOG.error("DaoPropertyUtilExeption ERROR!: "+e.getMessage(),e.fillInStackTrace());
 			}
-    		update(keys,query);
+    		return result;
     	 
     }
 
     
     @Override
-    public void updateCustomRecord(String sqlStatment,Object ... keys){
+    public void updateCustomRecord(String sqlStatment,Object ... keys) throws DeclarPassportDaoExeption{
     	
-    		String query = null;
-			try {
-				query = DaoStatment.daoUPDATE.getStatment("dbsvript/"+propSqlFolder, sqlStatment);
+    		String query = null;	
+    		try {
+    			query = DaoStatment.daoUPDATE.getStatment("dbsvript/"+propSqlFolder, sqlStatment);
+				update(keys,query);
+			} catch (ClassNotFoundException e) {
+				throw new DeclarPassportDaoExeption ("SQLException : "+ e.getMessage(),e.fillInStackTrace());
+			} catch (SQLException e) {
+				throw new DeclarPassportDaoExeption ("SQLException : "+ e.getMessage(),e.fillInStackTrace());
 			} catch (DaoPropertyUtilExeption e) {
 				LOG.error("ERROR!: "+e.getMessage(),e.fillInStackTrace());
+					
 			}
-    		update(keys,query);
   
     }
     
     @Override
-    public void deleteRecord(Object ... keys){
-    
+    public int deleteRecord(Object ... keys) throws DeclarPassportDaoExeption{
+              
     		String query = null;
+    		int result =-1;
 			try {
 				query = DaoStatment.daoDELETE.getStatment("dbsvript/"+propSqlFolder, "Delete.all");
+				result = delete(keys,query);				
 			} catch (DaoPropertyUtilExeption e) {
 				LOG.error("ERROR!: "+e.getMessage(),e.fillInStackTrace());
+			} catch (ClassNotFoundException e) {
+				throw new DeclarPassportDaoExeption ("ClassNotFoundException : "+ e.getMessage(),e.fillInStackTrace());
+			} catch (SQLException e) {
+				throw new DeclarPassportDaoExeption ("SQLException : "+ e.getMessage(),e.fillInStackTrace());
 			}
-    		delete(keys,query);
+			return result;
+    		
     
     }
-    public void deleteCustomRecord(String sqlStatment,Object ... keys){
+    public void deleteCustomRecord(String sqlStatment,Object ... keys) throws DeclarPassportDaoExeption{
     
     		String query = null;
 			try {
 				query = DaoStatment.daoDELETE.getStatment("dbsvript/"+propSqlFolder, sqlStatment);
+				delete(keys,query);
 			} catch (DaoPropertyUtilExeption e) {
 				// TODO Auto-generated catch block
 				LOG.error("ERROR!: "+e.getMessage(),e.fillInStackTrace());
+			} catch (ClassNotFoundException e) {
+				throw new DeclarPassportDaoExeption ("ClassNotFoundException : "+ e.getMessage(),e.fillInStackTrace());
+			} catch (SQLException e) {
+				throw new DeclarPassportDaoExeption ("SQLException : "+ e.getMessage(),e.fillInStackTrace());
 			}
-    		delete(keys,query);
+    		
     	
     }
 
