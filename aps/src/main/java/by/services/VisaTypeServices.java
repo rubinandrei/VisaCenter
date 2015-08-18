@@ -1,4 +1,4 @@
-package by.controllers;
+package by.services;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import by.model.Visatype;
 import by.dao.GenericDao;
 import by.dao.VisaTypeDaoImpl;
 
-public class VisaTypeController implements IEventsController<Visatype>{
+public class VisaTypeServices {
 
 	public List<Visatype> getDataById(Object... key) {
 		// TODO Auto-generated method stub

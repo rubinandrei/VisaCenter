@@ -11,6 +11,7 @@ import java.util.List;
 
 
 
+
 import org.apache.log4j.Logger;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -20,18 +21,15 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import by.controllers.RegistrationFormService;
 import by.dao.GenericDao;
 import by.dao.RegistrFormDaoImpl;
 import by.model.RegistrForm;
+import by.services.RegistrationFormService;
 
 
-/**
- * Unit test for simple App.
- */
 
-public class AppTest {
-	private static final Logger LOG = Logger.getLogger(AppTest.class);
+public class RegestrationFormTest {
+	private static final Logger LOG = Logger.getLogger(RegestrationFormTest.class);
 	 private Mockery context = new JUnit4Mockery() {{
 	        setImposteriser(ClassImposteriser.INSTANCE);
 	    }};

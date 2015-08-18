@@ -1,12 +1,24 @@
 package org.aps;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import by.controllers.RegistrationFormService;
+import org.apache.log4j.Logger;
+
+import by.dao.AvailableRegestrationsDaoImpl;
+import by.exeption.AvailableRegestrationsExeption;
+import by.exeption.LoginRegistrationFormServiceExeption;
+import by.model.AvailableRegestrations;
 import by.model.DeclarPassport;
 import by.model.RegistrForm;
+import by.model.Visatype;
+import by.services.LoginRegistrationFormServices;
+import by.services.RegistrationFormService;
 
 /**
  * Hello world!
@@ -14,25 +26,27 @@ import by.model.RegistrForm;
  */
 public class App 
 {
-    public static void main( String[] args )
-    {
-    	RegistrForm aaa = new RegistrForm();
+   
+	private static final Logger LOG = Logger.getLogger(App.class);
+	public static void main( String[] args ){
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date dd = new Date();
+		AvailableRegestrationsDaoImpl aa = null;
+		try {
+			aa = new AvailableRegestrationsDaoImpl();
+		} catch (ClassNotFoundException e1) {
+		
+		}
+		try {
+			List<AvailableRegestrations> sss = aa.getRecord(dateFormat.format(dd).toString());
+			for(AvailableRegestrations dd1: sss){
+	    		LOG.info(dd1.toString());
+	    	}
+		} catch (AvailableRegestrationsExeption e) {
+			LOG.error(e.getMessage(),e.fillInStackTrace());
+		}
+		
     	
-    	aaa.setDp_date_birth("2015-07-31");
-    	aaa.setDp_first_name("Ivan");
-    	aaa.setDp_passport_nb("MR34567");    	
-    	aaa.setDp_passport_indent_nb("aas2341353455FDHRyr6y");
-    	aaa.setDp_passport_valid_data("2019-07-31");
-    	aaa.setDp_second_name("Ivanov");
-    	aaa.setRf_declarant_email("andrew.a.rubin@gmail.com");
-    	aaa.setRf_declarant_password("MR34567");
-    	aaa.setVt_id(1);
-    	
-    	List<RegistrForm> passport  = new ArrayList<RegistrForm>();
-    	passport.add(aaa);
-    	RegistrationFormService regForm = new RegistrationFormService();
-    	List<RegistrForm> sss = regForm.saveData(passport);
-    	
-        System.out.println(sss.get(0).toString());
     }
 }
