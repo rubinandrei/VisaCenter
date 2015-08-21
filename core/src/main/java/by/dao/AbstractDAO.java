@@ -11,8 +11,8 @@ import by.model.AbstractModelImpl;
 
 interface AbstractDAO <T extends AbstractModelImpl >  {
 	 
-	Set<Integer> add (String query,List<T> conditionsKey) throws SQLException,ClassNotFoundException;	
-  	int delete(Object[] key, String query) throws SQLException;
-  	List<Object> get(T t,Object[] keys,String query) throws SQLException, InstantiationException, IllegalAccessException, SecurityException;
-  	int update(Object[] key, String query) throws SQLException;
-}
+	abstract Set<Integer> add (String query,List<T> conditionsKey) throws SQLException,ClassNotFoundException;	
+	abstract int delete(Object[] key, String query) throws SQLException;
+	abstract List<Object> get(T t,Object[] keys,String query) throws SQLException, InstantiationException, IllegalAccessException, SecurityException;
+	abstract int update(Object[] key, String query) throws SQLException;
+}  

@@ -1,1 +1,1 @@
-Delete.byID = DELETE FROM visa_type Where vt_id =?;
+Delete.byID = UPDATE visa_type SET vt_terminated_time = date(now()) WHERE vt_id = ?;

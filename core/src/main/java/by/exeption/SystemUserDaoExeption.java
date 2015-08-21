@@ -2,20 +2,20 @@ package by.exeption;
 
 import org.apache.log4j.Logger;
 
-public class UserDaoExeption extends Exception{
+public class SystemUserDaoExeption extends Exception{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -7324112538188783469L;
 	private static final Logger LOG = Logger.getLogger(RegistrFormExeption.class);
-	public UserDaoExeption (String message){	
+	public SystemUserDaoExeption (String message){	
 		
 		super(message);
 		
 	}
 	
-	public UserDaoExeption (String message,Throwable cause){		
-        super("UserDaoExeption-> " + message, cause);
+	public SystemUserDaoExeption (String message,Throwable cause){		
+        super("SystemUserDaoExeption-> " + message, cause);
       
 
 	}

@@ -17,7 +17,7 @@ public class MySQLconnection {
 	private static Connection conn;
 	private static MySQLconnection mySQLconnection;
 	private static final Logger LOG = Logger.getLogger(MySQLconnection.class);
-	private  MySQLconnection() throws ClassNotFoundException{
+	public  MySQLconnection() throws ClassNotFoundException{
 		
 		
 		

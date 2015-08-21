@@ -1,1 +1,1 @@
-Delete.byId=
+Delete.byId=DELETE FROM regisrtform WHERE rf_id =?;

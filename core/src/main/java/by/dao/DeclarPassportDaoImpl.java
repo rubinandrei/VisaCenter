@@ -1,6 +1,7 @@
 package by.dao;
 
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +9,12 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import by.dbconection.MySQLconnection;
+import by.exeption.AvailableRegestrationsExeption;
 import by.exeption.DaoPropertyUtilExeption;
 import by.exeption.DeclarPassportDaoExeption;
+import by.exeption.RegistrFormExeption;
+import by.exeption.VisaTypeDaoExeption;
 import by.model.DeclarPassport;
 
 
@@ -17,14 +22,20 @@ public class DeclarPassportDaoImpl extends AbstractDaoImpl<DeclarPassport> imple
 
 	private String  propSqlFolder = this.getClass().getSimpleName();
 	private static final Logger LOG = Logger.getLogger(DeclarPassportDaoImpl.class);
+	private static volatile DeclarPassportDaoImpl   declarPassportDao = null;
 	
-    public DeclarPassportDaoImpl() throws ClassNotFoundException  {
+    private DeclarPassportDaoImpl() {
 		super();
+		try {
+			conn =  (Connection) MySQLconnection.getConnection();
+		} catch (ClassNotFoundException e) {
+			LOG.error("Class not Found");
+		}	
 	}
     
     
     @Override
-    public Set<Integer> saveRecord(List<DeclarPassport> list ) throws DeclarPassportDaoExeption { 
+    public synchronized Set<Integer> saveRecord(List<DeclarPassport> list ) throws DeclarPassportDaoExeption { 
     
     	    Set <Integer> result=null;
     	    String query = null;
@@ -45,11 +56,33 @@ public class DeclarPassportDaoImpl extends AbstractDaoImpl<DeclarPassport> imple
 		
     }
     
+ 
     @Override
-    public int saveCustomRecord(String sqlStatment, Object ...keys ) throws DeclarPassportDaoExeption {    
+    public synchronized int saveRecord(DeclarPassport passport ) throws DeclarPassportDaoExeption {
+    	int result = 0;    
+    	String query = null;
+			try {
+				query = DaoStatment.daoINSERT.getStatment("dbsvript/"+propSqlFolder, "insert.allparam");
+				result = add(query,passport);
+			} catch (DaoPropertyUtilExeption e) {
+				// TODO Auto-generated catch block
+				LOG.error(" DaoPropertyUtilExeption ERROR!: "+e.getMessage(),e.fillInStackTrace());
+			} catch (ClassNotFoundException e) {
+				throw new DeclarPassportDaoExeption ("saveRecord : ClassNotFoundException "+ e.getMessage(),e.fillInStackTrace());				
+			} catch (SQLException e) {
+				throw new DeclarPassportDaoExeption ("saveRecord : SQLException"+ e.getMessage(),e.fillInStackTrace());		
+			}
+			return result;
+    	   
+			
+		
+    }
+    @Override
+    public synchronized int saveCustomRecord(String sqlStatment, Object ...keys ) throws DeclarPassportDaoExeption {    
     	
     		try {
-    		    String query = DaoStatment.daoINSERT.getStatment("dbsvript/"+propSqlFolder, sqlStatment);    			
+    			
+    		    String query = DaoStatment.daoINSERT.getStatment("dbsvript/"+propSqlFolder, sqlStatment.isEmpty()?"insert.allparam":sqlStatment);    			
 				return add(query,keys);
 			} catch (ClassNotFoundException e) {
 				throw new DeclarPassportDaoExeption ("InstantiationException : "+ e.getMessage(),e.fillInStackTrace());		
@@ -64,7 +97,7 @@ public class DeclarPassportDaoImpl extends AbstractDaoImpl<DeclarPassport> imple
     
  
     @Override
-    public List<DeclarPassport> getRecord(Object ... keys) throws DeclarPassportDaoExeption {     	
+    public synchronized List<DeclarPassport> getRecord(Object ... keys) throws DeclarPassportDaoExeption {     	
     
 	 String query;
 	 List<DeclarPassport> listFiels = new ArrayList<DeclarPassport>();
@@ -87,7 +120,7 @@ public class DeclarPassportDaoImpl extends AbstractDaoImpl<DeclarPassport> imple
 	 	return listFiels;
     }
     
-    public List<DeclarPassport> getRecordbyPassportNamber(Object ... keys) throws DeclarPassportDaoExeption{     	
+    public synchronized List<DeclarPassport> getRecordbyPassportNamber(Object ... keys) throws DeclarPassportDaoExeption{     	
         
    	 String query;
    	 List<DeclarPassport> listFiels = new ArrayList<DeclarPassport>();
@@ -111,7 +144,7 @@ public class DeclarPassportDaoImpl extends AbstractDaoImpl<DeclarPassport> imple
        }
     
     @Override
-    public List<DeclarPassport> getCustomRecord(String sqlStatment,Object ... keys) throws DeclarPassportDaoExeption{   	
+    public synchronized List<DeclarPassport> getCustomRecord(String sqlStatment,Object ... keys) throws DeclarPassportDaoExeption{   	
         
    	 String query;
    	 List<DeclarPassport> listFiels = new ArrayList<DeclarPassport>();
@@ -137,7 +170,7 @@ public class DeclarPassportDaoImpl extends AbstractDaoImpl<DeclarPassport> imple
     }
     
     @Override
-    public int  updateRecord(Object ... keys) throws DeclarPassportDaoExeption  {
+    public synchronized int  updateRecord(Object ... keys) throws DeclarPassportDaoExeption  {
  
     		String query = null;
 			int result = -1;
@@ -158,7 +191,7 @@ public class DeclarPassportDaoImpl extends AbstractDaoImpl<DeclarPassport> imple
 
     
     @Override
-    public void updateCustomRecord(String sqlStatment,Object ... keys) throws DeclarPassportDaoExeption{
+    public synchronized void updateCustomRecord(String sqlStatment,Object ... keys) throws DeclarPassportDaoExeption{
     	
     		String query = null;	
     		try {
@@ -176,13 +209,13 @@ public class DeclarPassportDaoImpl extends AbstractDaoImpl<DeclarPassport> imple
     }
     
     @Override
-    public int deleteRecord(Object ... keys) throws DeclarPassportDaoExeption{
+    public synchronized int deleteRecord(int id) throws DeclarPassportDaoExeption{
               
     		String query = null;
     		int result =-1;
 			try {
 				query = DaoStatment.daoDELETE.getStatment("dbsvript/"+propSqlFolder, "Delete.all");
-				result = delete(keys,query);				
+				result = delete(id,query);				
 			} catch (DaoPropertyUtilExeption e) {
 				LOG.error("ERROR!: "+e.getMessage(),e.fillInStackTrace());
 			} catch (ClassNotFoundException e) {
@@ -194,7 +227,7 @@ public class DeclarPassportDaoImpl extends AbstractDaoImpl<DeclarPassport> imple
     		
     
     }
-    public void deleteCustomRecord(String sqlStatment,Object ... keys) throws DeclarPassportDaoExeption{
+    public synchronized void deleteCustomRecord(String sqlStatment, Object...keys) throws DeclarPassportDaoExeption{
     
     		String query = null;
 			try {
@@ -212,5 +245,28 @@ public class DeclarPassportDaoImpl extends AbstractDaoImpl<DeclarPassport> imple
     	
     }
 
+	 public static DeclarPassportDaoImpl getDeclarPassportDao()
+     {
+         if (declarPassportDao == null)
+             {
+                 synchronized (DeclarPassportDaoImpl.class)
+                     {
+                         if (declarPassportDao == null)
+                             {
+                        	 	declarPassportDao = new DeclarPassportDaoImpl();
+                             }
+                     }
+             }
+         return declarPassportDao;
+     }
+
+
+	@Override
+	public int deleteRecord(Object... keys) throws DaoPropertyUtilExeption,
+			RegistrFormExeption, DeclarPassportDaoExeption,
+			VisaTypeDaoExeption, AvailableRegestrationsExeption {
+		
+		return 0;
+	}	 
 	
 }

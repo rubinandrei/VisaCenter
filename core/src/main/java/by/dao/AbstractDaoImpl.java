@@ -33,12 +33,12 @@ public abstract  class AbstractDaoImpl<T extends AbstractModelImpl>{// implement
 	
 	private static final Logger LOG = Logger.getLogger(AbstractDaoImpl.class);	 
 	
-	private Connection conn = null;
+	protected Connection conn = null;
 	private Class<?>[] paramtype=null;
 
 	//private List<T> daoList;
 	
-	protected AbstractDaoImpl() throws ClassNotFoundException{		
+	protected AbstractDaoImpl(){		
 		  
 	}
 
@@ -49,10 +49,8 @@ public abstract  class AbstractDaoImpl<T extends AbstractModelImpl>{// implement
 		PreparedStatement preparedStatement = null;	
 		Set<Integer> resultId = new HashSet<Integer>();
 		Validate.notNull(value, "value is not be null");		
-		int resultSet = -1;		
+		int resultSet = -1;	
 	
-			    conn =  MySQLconnection.getConnection();
-
 		    	for(T t:value)
 				{  		
 		    		preparedStatement = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);   	
@@ -80,17 +78,41 @@ public abstract  class AbstractDaoImpl<T extends AbstractModelImpl>{// implement
 			         }
 	    			
 				}				
-			
-	
-		
-		
 		return resultId;
+    }
+	
+	protected  int add(String query,T value ) throws ClassNotFoundException, SQLException {				 
+		PreparedStatement preparedStatement = null;	
+		Set<Integer> resultId = new HashSet<Integer>();	
+		Validate.notNull(value, "value is not be null");		
+		int resultSet = -1;	    		
+		    		
+		    		int i=0;
+		    		
+		    			i++;	    			
+		    			try {
+		    				preparedStatement = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS); 
+		    				for(Object object:value.getAll()){		    					  	
+		    					preparedStatement.setObject(i,object);
+		    				}
+							resultSet = preparedStatement.executeUpdate();
+							ResultSet tableId = preparedStatement.getGeneratedKeys();
+							if (tableId.next()) {
+								LOG.debug("Inserted id " + tableId.getInt(1));					
+								resultSet = tableId.getInt(1);								
+					         }
+						} catch (SQLException e) {
+					       LOG.error(e.getMessage(),e.fillInStackTrace());
+						}	    		
+				
+						
+		return resultSet;
     }
 	
 	// castom insert 
 	protected  int add(String query, Object[] conditionsKey) throws ClassNotFoundException {		
 		Validate.notNull(conditionsKey, "conditionsKey is not be null");
-		conn =  MySQLconnection.getConnection();
+	//	conn =  MySQLconnection.getConnection();
 		PreparedStatement preparedStatement = null;
 		int resultSet = -1;
 		int SaveId=0;
@@ -132,12 +154,8 @@ public abstract  class AbstractDaoImpl<T extends AbstractModelImpl>{// implement
       	ResultSet result = null;		
       	Validate.notNull(t, "Model is not be null");      
 		PreparedStatement preparedStatement;		
-				try {
-					conn =  MySQLconnection.getConnection();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			
+	//				conn =  MySQLconnection.getConnection();
 				preparedStatement = conn.prepareStatement(query);
 				if(conditionsKey.length > 0){
 					int i= 1;
@@ -199,27 +217,29 @@ public abstract  class AbstractDaoImpl<T extends AbstractModelImpl>{// implement
       }
       
 	protected  int delete(Object[] conditionsKey, String query) throws ClassNotFoundException, SQLException{
-		  conn =  MySQLconnection.getConnection();
-		Validate.notNull(conditionsKey,"Model is not be null");
-        PreparedStatement preparedStatement = null;
+	    PreparedStatement preparedStatement = null;
         int resultSet = -1;
-        
-        		preparedStatement = conn.prepareStatement(query);	    
-	    		
-	    		for(Object conditions:conditionsKey){
-	    			preparedStatement.setObject(1,conditions);
-	    			resultSet = preparedStatement.executeUpdate();
-	    			}	    		
-	    		
-	    		
-			
-        	return resultSet;
-  		
+        int i= 1;
+        preparedStatement = conn.prepareStatement(query);	
+        for(Object conditions:conditionsKey){
+        	preparedStatement.setObject(i,conditions);
+	    	i++;
+	   	}	    		
+	   resultSet = preparedStatement.executeUpdate();return resultSet;  		
+  	  }      
+	
+	protected  int delete(int id, String query) throws ClassNotFoundException, SQLException{
+	    PreparedStatement preparedStatement = null;
+        int resultSet = -1;        
+        preparedStatement = conn.prepareStatement(query);	
+	    preparedStatement.setObject(1,id);
+	    resultSet = preparedStatement.executeUpdate();   		
+        return resultSet;  		
   	  }      
       
       protected  int update(Object[] conditionsKey, String query) throws ClassNotFoundException,SQLException{
     	  Validate.notNull(conditionsKey,"Model is not be null");
-    	  conn =  MySQLconnection.getConnection();
+    //	  conn =  MySQLconnection.getConnection();
           PreparedStatement preparedStatement = null;
           int resultSet = -1;
           		preparedStatement = conn.prepareStatement(query);	    
@@ -232,6 +252,22 @@ public abstract  class AbstractDaoImpl<T extends AbstractModelImpl>{// implement
           	return resultSet;
     		
     	  }
+      
+      
+      protected int update(T value,int id, String query) throws ClassNotFoundException,SQLException{
+          PreparedStatement preparedStatement = null;
+          int resultSet = -1;
+          		preparedStatement = conn.prepareStatement(query);	    
+  	    		int i= 0;
+  	    		for(Object object:value.getAll()){
+  	    			i++;
+  	    			preparedStatement.setObject(i,object);  	    			
+  	    			} 
+  	        	preparedStatement.setObject(i++,id);  
+                resultSet = preparedStatement.executeUpdate();  	    		
+          	    return resultSet;    		
+    	  }
+      
       
   
 	private T extracted(T t) throws InstantiationException,

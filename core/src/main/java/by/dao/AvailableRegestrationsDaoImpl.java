@@ -1,23 +1,32 @@
 package by.dao;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.log4j.Logger;
 
+import by.dbconection.MySQLconnection;
 import by.exeption.AvailableRegestrationsExeption;
 import by.exeption.DaoPropertyUtilExeption;
-import by.exeption.RegistrFormExeption;
+import by.exeption.DeclarPassportDaoExeption;
 import by.model.AvailableRegestrations;
-import by.model.DeclarPassport;
 
 
-public class AvailableRegestrationsDaoImpl  extends AbstractDaoImpl<AvailableRegestrations> implements GenericDao<AvailableRegestrations>{
+
+public  class AvailableRegestrationsDaoImpl  extends AbstractDaoImpl<AvailableRegestrations> implements GenericDao<AvailableRegestrations>{
 	
-	public AvailableRegestrationsDaoImpl() throws ClassNotFoundException {
+	private static volatile AvailableRegestrationsDaoImpl   availableRegestrationsDao = null;
+	private Lock lock =  new ReentrantLock(); 
+	
+	private AvailableRegestrationsDaoImpl() throws ClassNotFoundException {
 		super();
+		conn = (Connection)  MySQLconnection.getConnection();	
 		
 	}
 
@@ -26,13 +35,15 @@ public class AvailableRegestrationsDaoImpl  extends AbstractDaoImpl<AvailableReg
 	private static final Logger LOG = Logger.getLogger(AvailableRegestrationsDaoImpl.class);
 
 	@Override
-	public List<AvailableRegestrations> getRecord(Object... keys) throws AvailableRegestrationsExeption {
-		     String query;
+	public  synchronized  List<AvailableRegestrations> getRecord(Object... keys) throws AvailableRegestrationsExeption {
+		    String query;
 		    List<AvailableRegestrations> listFiels = new ArrayList<AvailableRegestrations>();
 		    AvailableRegestrations countbyDay = new AvailableRegestrations(); 
-		 		try {
+		 		try {		 			
 					query = DaoStatment.daoREAD.getStatment("dbsvript/"+propSqlFolder, "Select.Avalible.byNextDays");
+					lock.lock();					
 					listFiels = get(countbyDay,keys,query);
+					lock.unlock();
 				} catch (DaoPropertyUtilExeption e) {
 					LOG.error("AvailableRegestrationsDaoImpl getRecord ERROR!: "+e.getMessage(),e.fillInStackTrace());
 				} catch (InstantiationException e) {
@@ -49,12 +60,14 @@ public class AvailableRegestrationsDaoImpl  extends AbstractDaoImpl<AvailableReg
 	}
 
 	@Override
-	public int updateRecord(Object... keys) throws AvailableRegestrationsExeption {
+	public synchronized  int updateRecord(Object... keys) throws AvailableRegestrationsExeption {
 		String query = null;
 		int result =-1;
 			try {
 				query = DaoStatment.daoUPDATE.getStatment("dbsvript/"+propSqlFolder, "Update.AvalibleCount.byDay");
-				result = update(keys,query);	 
+				lock.lock();	
+				result = update(keys,query);
+				lock.unlock();
 			} catch (DaoPropertyUtilExeption e) {
 				LOG.error("AvailableRegestrationsDaoImpl updateRecord ERROR!: "+e.getMessage(),e.fillInStackTrace());
 			} catch (ClassNotFoundException e) {
@@ -67,11 +80,13 @@ public class AvailableRegestrationsDaoImpl  extends AbstractDaoImpl<AvailableReg
 		
 	}
 	
-	public void updateByRegistarion(Object... keys) throws AvailableRegestrationsExeption  {
+	public synchronized  void updateByRegistarion(Object... keys) throws AvailableRegestrationsExeption  {
 		String query = null;		
 			try {
 				query = DaoStatment.daoUPDATE.getStatment("dbsvript/"+propSqlFolder, "Update.AvalibleCount.byReg");
-				 update(keys,query);	 
+				 lock.lock();
+				 update(keys,query);
+				 lock.unlock();
 			} catch (DaoPropertyUtilExeption e) {
 				LOG.error("AvailableRegestrationsDaoImpl updateByRegistarion ERROR!: "+e.getMessage(),e.fillInStackTrace());				
 			} catch (ClassNotFoundException e) {
@@ -84,15 +99,16 @@ public class AvailableRegestrationsDaoImpl  extends AbstractDaoImpl<AvailableReg
 	}
 	
 	
-	public List<AvailableRegestrations> getCountByDay(Object... keys) throws AvailableRegestrationsExeption {
+	public synchronized  List<AvailableRegestrations> getCountByDay(Object... keys) throws AvailableRegestrationsExeption {
 	    String query;
 	    List<AvailableRegestrations> listFiels = new ArrayList<AvailableRegestrations>();	
 	        AvailableRegestrations countbyDay = new AvailableRegestrations();
 	 		
 	        try {
 				query = DaoStatment.daoREAD.getStatment("dbsvript/"+propSqlFolder, "Select.AvalibleCount.byDay");
+				lock.lock();
 				listFiels = get(countbyDay,keys,query);
-	 		 	
+				lock.unlock();
 			} catch (DaoPropertyUtilExeption e) {				
 				LOG.error("AvailableRegestrationsDaoImpl getCountByDay ERROR!: "+e.getMessage(),e.fillInStackTrace());	
 				
@@ -111,9 +127,9 @@ public class AvailableRegestrationsDaoImpl  extends AbstractDaoImpl<AvailableReg
 	}
 
 	@Override
-	public Set<Integer> saveRecord(List<AvailableRegestrations> availableRegestrations ) throws AvailableRegestrationsExeption {
+	public synchronized Set<Integer> saveRecord(List<AvailableRegestrations> availableRegestrations ) throws AvailableRegestrationsExeption {
 		String query;
-		Set<Integer> result;
+		Set<Integer> result = new HashSet<Integer>()  ;
 		try {
 			query = DaoStatment.daoINSERT.getStatment("dbsvript/"+propSqlFolder, "insert.AvalibleCountDay");
 			result = add(query, availableRegestrations);
@@ -124,16 +140,18 @@ public class AvailableRegestrationsDaoImpl  extends AbstractDaoImpl<AvailableReg
 		} catch (SQLException e) {
 			throw new AvailableRegestrationsExeption ("saveRecord: SQLException: "+ e.getMessage(),e.fillInStackTrace());
 		}
-		return null;
+		return result;
 	}
 
 	@Override
-	public int deleteRecord(Object... keys) throws AvailableRegestrationsExeption {
+	public synchronized int  deleteRecord(Object... keys) throws AvailableRegestrationsExeption {
 		int result =-1;
 		String query;	
-		try {
+		try {			
 			query = DaoStatment.daoUPDATE.getStatment("dbsvript/"+propSqlFolder, "Update.AvalibleCount.byterminate");
+			lock.lock();
 			result = update(keys,query);
+			lock.unlock();
 		} catch (ClassNotFoundException e) {
 			throw new AvailableRegestrationsExeption ("deleteRecord: ClassNotFoundException: "+ e.getMessage(),e.fillInStackTrace());
 		} catch (SQLException e) {
@@ -144,4 +162,37 @@ public class AvailableRegestrationsDaoImpl  extends AbstractDaoImpl<AvailableReg
 	 return result;
 	}
 
+	
+	 public static AvailableRegestrationsDaoImpl getAvailableRegestrationsDao()
+     {
+         if (availableRegestrationsDao == null)
+             {
+                 synchronized (AvailableRegestrationsDaoImpl.class)
+                     {
+                         if (availableRegestrationsDao == null)
+                             {
+                        	 	try {
+                        	 		availableRegestrationsDao = new AvailableRegestrationsDaoImpl();
+                        	 	} catch (ClassNotFoundException e) {
+                        	 		LOG.error("Class not Found");
+                        	 	}
+                             }
+                     }
+             }
+         return availableRegestrationsDao;
+     }
+
+	@Override
+	public int saveRecord(AvailableRegestrations t)
+			throws DeclarPassportDaoExeption {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteRecord(int id) throws DeclarPassportDaoExeption {
+		// TODO Auto-generated method stub
+		return 0;
+	}	 
+	 
 }

@@ -262,6 +262,17 @@ public class RegistrForm extends AbstractModelImpl implements Serializable,Clone
 		getDp_id());
 		 
 	}
+	public  Object[] getForPassword() {
+		return getValues(
+				getDp_first_name(),
+				getDp_second_name(),		
+				getDp_date_birth(),
+				getDp_passport_nb(),
+				getDp_passport_indent_nb(),
+				getDp_passport_valid_data(),getDp_id()>0?getDp_id():null);
+		 
+	}
+
 
 	@Override
 	public int hashCode() {

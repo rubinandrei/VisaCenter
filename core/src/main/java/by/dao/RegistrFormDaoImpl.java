@@ -1,4 +1,5 @@
 package by.dao;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -6,20 +7,28 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import by.dbconection.MySQLconnection;
+import by.exeption.AvailableRegestrationsExeption;
 import by.exeption.DaoPropertyUtilExeption;
+import by.exeption.DeclarPassportDaoExeption;
 import by.exeption.RegistrFormExeption;
+import by.exeption.VisaTypeDaoExeption;
 import by.model.RegistrForm;
 
 
 public class RegistrFormDaoImpl  extends AbstractDaoImpl<RegistrForm> implements GenericDao<RegistrForm> ,CastomGenericDao<RegistrForm>  {
 
 	private String  propSqlFolder = this.getClass().getSimpleName();
+	private static volatile RegistrFormDaoImpl registrFormDao= null;
+	private static final Logger LOG = Logger.getLogger(RegistrFormDaoImpl.class);	
 	
-	private static final Logger LOG = Logger.getLogger(RegistrFormDaoImpl.class);
-	private DeclarPassportDaoImpl passport = new DeclarPassportDaoImpl();
-	
-    public RegistrFormDaoImpl() throws ClassNotFoundException {
+    private RegistrFormDaoImpl()  {
 		super();
+		try {
+			conn = (Connection)  MySQLconnection.getConnection();	
+		} catch (ClassNotFoundException e) {
+			LOG.error("Class not Found");		
+		}
 	}   
     @Override
     public Set<Integer> saveRecord(List<RegistrForm> listRegistrForm) throws DaoPropertyUtilExeption, RegistrFormExeption{    	
@@ -83,18 +92,20 @@ public class RegistrFormDaoImpl  extends AbstractDaoImpl<RegistrForm> implements
     }
     
     @Override
-    public int deleteRecord(Object ... keys) throws DaoPropertyUtilExeption, RegistrFormExeption{
+    public int deleteRecord(int id)  throws RegistrFormExeption{
            
-    	    int result = -1; 
-    		String query = DaoStatment.daoDELETE.getStatment("dbsvript/"+propSqlFolder, "Delete.byId");
+    	    int result = -1;
     		try {
-    			result= delete(keys,query);
+    			String query = DaoStatment.daoDELETE.getStatment("dbsvript/"+propSqlFolder, "Delete.byId");
+    			result= delete(id,query);
 			} catch (ClassNotFoundException e) {
 				 throw new RegistrFormExeption ("ClassNotFoundException : "+ e.getMessage(),e.fillInStackTrace());
 				 
 		    } catch (SQLException e) {
 		    	 throw new RegistrFormExeption ("SQLException : "+ e.getMessage(),e.fillInStackTrace());
 		    	
+			}catch (DaoPropertyUtilExeption e){
+				 throw new RegistrFormExeption ("DaoPropertyUtilExeption : "+ e.getMessage(),e.fillInStackTrace());
 			}
     		return result;
     	
@@ -152,6 +163,32 @@ public class RegistrFormDaoImpl  extends AbstractDaoImpl<RegistrForm> implements
 	}
 
 	
-
+	 public static RegistrFormDaoImpl getRegistrFormDao()
+     {
+         if (registrFormDao == null)
+             {
+                 synchronized (RegistrFormDaoImpl.class)
+                     {
+                         if (registrFormDao == null)
+                             {
+                        	 	registrFormDao = new RegistrFormDaoImpl();
+                             }
+                     }
+             }
+         return registrFormDao;
+     }
+	@Override
+	public int saveRecord(RegistrForm t) throws DeclarPassportDaoExeption {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public int deleteRecord(Object... keys) throws DaoPropertyUtilExeption,
+			RegistrFormExeption, DeclarPassportDaoExeption,
+			VisaTypeDaoExeption, AvailableRegestrationsExeption {
+		// TODO Auto-generated method stub
+		return 0;
+	}	 
+	
 	
 }
