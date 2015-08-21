@@ -19,14 +19,8 @@ public class AvalibleRegestrationServices {
 	private static final Logger LOG = Logger.getLogger(AvalibleRegestrationServices.class);
 	AvailableRegestrationsDaoImpl availableRegestration;
 	
-	public AvalibleRegestrationServices(){
-		try {
-			availableRegestration =new AvailableRegestrationsDaoImpl();
-		} catch (ClassNotFoundException e) {
-			
-			e.printStackTrace();
-		}
-
+	public AvalibleRegestrationServices(){		
+			availableRegestration = AvailableRegestrationsDaoImpl.getAvailableRegestrationsDao();	
    }
 	
    public List<AvailableRegestrations> getAvalibleDadesNow(){
