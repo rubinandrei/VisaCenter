@@ -1,1 +1,0 @@
-Delete.all=DELETE FROM declarpassport WHERE dp_id = ?;

@@ -1,7 +1,4 @@
 package by.model;
-import by.model.FieldName;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SystemUsers extends AbstractModelImpl {
 	protected int su_id;

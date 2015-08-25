@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <availablereg ar_id="1" ar_count="false" ar_day="2015-08-03" status="0"/>
+  <availablereg ar_id="2" ar_count="false" ar_day="2015-08-04" status="0"/>
+  <availablereg ar_id="3" ar_count="false" ar_day="2015-08-05" status="0"/>
+  <availablereg ar_id="4" ar_count="false" ar_day="2015-08-06" status="0"/>
+  <availablereg ar_id="5" ar_count="false" ar_day="2015-08-07" status="0"/>
+  <availablereg ar_id="6" ar_count="false" ar_day="2015-08-10" status="0"/>
+  <availablereg ar_id="7" ar_count="false" ar_day="2015-08-11" status="0"/>
+  <availablereg ar_id="8" ar_count="false" ar_day="2015-08-12" status="0"/>
+  <availablereg ar_id="9" ar_count="false" ar_day="2015-08-13" status="0"/>
+  <availablereg ar_id="10" ar_count="false" ar_day="2015-08-14" status="0"/>
+  <availablereg ar_id="11" ar_count="false" ar_day="2015-08-17" status="0"/>
+  <availablereg ar_id="12" ar_count="false" ar_day="2015-08-18" status="0"/>
+  <availablereg ar_id="13" ar_count="false" ar_day="2015-08-19" status="0"/>
+  <availablereg ar_id="14" ar_count="false" ar_day="2015-08-20" status="0"/>
+  <availablereg ar_id="15" ar_count="false" ar_day="2015-08-21" status="0"/>
+  <availablereg ar_id="16" ar_count="false" ar_day="2015-08-24" status="0"/>
+  <availablereg ar_id="17" ar_count="false" ar_day="2015-08-25" status="0"/>
+  <availablereg ar_id="18" ar_count="false" ar_day="2015-08-26" status="0"/>
+  <availablereg ar_id="19" ar_count="false" ar_day="2015-08-27" status="0"/>
+  <availablereg ar_id="20" ar_count="false" ar_day="2015-08-28" status="0"/>
+  <availablereg ar_id="21" ar_count="false" ar_day="2015-08-31" status="0"/>
+  <availablereg ar_id="32" ar_count="false" ar_day="2015-08-01" status="0"/>
+  <availablereg ar_id="33" ar_count="false" ar_day="2015-08-02" status="0"/>
+  <availablereg ar_id="34" ar_count="false" ar_day="2015-08-08" status="0"/>
+  <availablereg ar_id="35" ar_count="false" ar_day="2015-08-09" status="0"/>
+  <availablereg ar_id="36" ar_count="false" ar_day="2015-08-15" status="0"/>
+  <availablereg ar_id="37" ar_count="false" ar_day="2015-08-16" status="0"/>
+  <availablereg ar_id="38" ar_count="false" ar_day="2015-08-22" status="0"/>
+  <availablereg ar_id="39" ar_count="false" ar_day="2015-08-23" status="0"/>
+  <availablereg ar_id="40" ar_count="false" ar_day="2015-08-29" status="0"/>
+  <availablereg ar_id="41" ar_count="false" ar_day="2015-08-30" status="0"/>
+  <declarpassport dp_id="1" dp_first_name="Andrei" dp_second_name="Rubin" dp_passport_nb="MP24354345" dp_date_birth="1974-08-11" dp_passport_valid_data="2019-08-11" dp_passport_indent_nb="234D234hhh2342344y5654"/>
+  <declarpassport dp_id="2" dp_first_name="Mishail" dp_second_name="Rubin" dp_passport_nb="MP34554345" dp_date_birth="2003-10-24" dp_passport_valid_data="2016-05-19" dp_passport_indent_nb="234D234hhh23423Asy5654"/>
+  <regisrtform rf_id="1" rf_datareg="2015-07-31 17:08:01.0" rt_visatype="1" rf_declarant_email="Andrew.a.Rubin@gmail.com" rf_declarant_password="1" rf_status="0" rf_declarant_passpord="1"/>
+  <regisrtform rf_id="2" rf_datareg="2015-07-31 17:08:01.0" rt_visatype="2" rf_declarant_email="Rubin@gmail.com" rf_declarant_password="2" rf_status="0" rf_declarant_passpord="2"/>
+  <systemusers/>
+  <visa visa_id="1" visa_declarpassword_id="1" visa_do_from="2015-09-24" visa_do_until="2016-09-24" visa_type_id="2" visa_date="2015-07-31" visa_nb_entires="1" visa_duration_stay="120"/>
+  <visa visa_id="2" visa_declarpassword_id="2" visa_do_from="2015-09-24" visa_do_until="2016-09-24" visa_type_id="2" visa_date="2015-07-31" visa_nb_entires="1" visa_duration_stay="120"/>
+  <visa_type vt_id="1" vt_name="&#1056;&#1072;&#1079;&#1086;&#1074;&#1072;&#1103; 90 &#1076;&#1085;&#1077;&#1081;" vt_actionday_count="90" vt_status="0" vt_cost="65" vt_action_type="1" vt_short_name="C"/>
+  <visa_type vt_id="2" vt_name="&#1056;&#1072;&#1079;&#1086;&#1074;&#1072;&#1103; 120 &#1076;&#1085;&#1077;&#1081;" vt_actionday_count="120" vt_status="0" vt_cost="100" vt_action_type="1" vt_short_name="D"/>
+  <visa_type vt_id="3" vt_name="Name_for test11" vt_actionday_count="300" vt_status="1" vt_cost="61" vt_action_type="1" vt_short_name="test"/>
+</dataset>

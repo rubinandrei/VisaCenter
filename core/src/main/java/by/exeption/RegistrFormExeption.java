@@ -1,9 +1,5 @@
 package by.exeption;
 
-import org.apache.log4j.Logger;
-
-import by.dao.AvailableRegestrationsDaoImpl;
-
 public class RegistrFormExeption extends Exception{
 	
 	/**

@@ -1,9 +1,6 @@
 package by.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import by.model.FieldName;
 
 public class RegistrForm extends AbstractModelImpl implements Serializable,Cloneable{
 
@@ -262,7 +259,17 @@ public class RegistrForm extends AbstractModelImpl implements Serializable,Clone
 		getDp_id());
 		 
 	}
-	public  Object[] getForPassword() {
+	public  Object[] getForUpdate() {
+		return getValues( 				
+		getRf_datareg(),
+		getVt_id(),		
+		getRf_status(),
+		getDp_id(),
+		getRf_declarant_email(),
+		getRf_id());	
+		 
+	}
+	public  Object[] getForPasspord() {
 		return getValues(
 				getDp_first_name(),
 				getDp_second_name(),		

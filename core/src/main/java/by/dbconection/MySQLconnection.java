@@ -1,15 +1,14 @@
 package by.dbconection;
 
-import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
 
-import com.mysql.jdbc.Connection;
-
 import by.exeption.DaoPropertyUtilExeption;
 import by.utils.ReadPropertys;
+
+import com.mysql.jdbc.Connection;
 
 public class MySQLconnection {
 	

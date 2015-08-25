@@ -1,5 +1,4 @@
 package by.dao;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,7 @@ public class RegistrFormDaoImpl  extends AbstractDaoImpl<RegistrForm> implements
     private RegistrFormDaoImpl()  {
 		super();
 		try {
-			conn = (Connection)  MySQLconnection.getConnection();	
+			conn = MySQLconnection.getConnection();	
 		} catch (ClassNotFoundException e) {
 			LOG.error("Class not Found");		
 		}
@@ -178,9 +177,21 @@ public class RegistrFormDaoImpl  extends AbstractDaoImpl<RegistrForm> implements
          return registrFormDao;
      }
 	@Override
-	public int saveRecord(RegistrForm t) throws DeclarPassportDaoExeption {
-		// TODO Auto-generated method stub
-		return 0;
+	public int saveRecord(RegistrForm t) throws RegistrFormExeption {	
+		 int result = -1;
+		try {
+			String query = DaoStatment.daoUPDATE.getStatment("dbsvript/"+propSqlFolder, "insert.allparam");
+			result = add(query,t);
+		} catch (DaoPropertyUtilExeption e) {
+			 throw new RegistrFormExeption ("DaoPropertyUtilExeption : "+ e.getMessage(),e.fillInStackTrace());
+			
+		} catch (ClassNotFoundException e) {
+			throw new RegistrFormExeption ("saveRecord: ClassNotFoundException : "+ e.getMessage(),e.fillInStackTrace());
+		} catch (SQLException e) {
+			throw new RegistrFormExeption ("saveRecord: SQLException : "+ e.getMessage(),e.fillInStackTrace());
+		}
+		
+		return result;
 	}
 	@Override
 	public int deleteRecord(Object... keys) throws DaoPropertyUtilExeption,

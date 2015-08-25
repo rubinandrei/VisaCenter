@@ -2,13 +2,11 @@ package by.dao;
 
 
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.io.IOException;
 
 import org.apache.log4j.Logger;
 
@@ -17,7 +15,6 @@ import by.exeption.AvailableRegestrationsExeption;
 import by.exeption.DaoPropertyUtilExeption;
 import by.exeption.DeclarPassportDaoExeption;
 import by.exeption.RegistrFormExeption;
-import by.exeption.SystemUserDaoExeption;
 import by.exeption.VisaTypeDaoExeption;
 import by.model.Visatype;
 
@@ -30,7 +27,7 @@ public class VisaTypeDaoImpl extends AbstractDaoImpl<Visatype>  implements Gener
     private VisaTypeDaoImpl() throws ClassNotFoundException{
 		super();
 		try {
-			conn = (Connection)  MySQLconnection.getConnection();	
+			conn = MySQLconnection.getConnection();	
 		} catch (ClassNotFoundException e) {
 			LOG.error("Class not Found");
 		}
@@ -55,7 +52,8 @@ public class VisaTypeDaoImpl extends AbstractDaoImpl<Visatype>  implements Gener
 	
     }    
     
-    public synchronized List<Visatype> getRecord(Object...keys) throws VisaTypeDaoExeption{
+    @Override
+	public synchronized List<Visatype> getRecord(Object...keys) throws VisaTypeDaoExeption{
     	
      	List<Visatype> listFiels = new ArrayList<Visatype>();
 		Visatype visatype = new Visatype(); 
@@ -104,7 +102,8 @@ public class VisaTypeDaoImpl extends AbstractDaoImpl<Visatype>  implements Gener
     	return listFiels.get(0);
     }
 
-    public synchronized int  updateRecord(Object ... keys) throws VisaTypeDaoExeption {
+    @Override
+	public synchronized int  updateRecord(Object ... keys) throws VisaTypeDaoExeption {
     		int result =-1;
     		try {
     			String query = DaoStatment.daoUPDATE.getStatment("dbsvript/"+propSqlFolder, "Update.byId");
@@ -119,7 +118,8 @@ public class VisaTypeDaoImpl extends AbstractDaoImpl<Visatype>  implements Gener
             return result;
     }
     
-    public synchronized int deleteRecord(int id) throws VisaTypeDaoExeption {
+    @Override
+	public synchronized int deleteRecord(int id) throws VisaTypeDaoExeption {
     		String query;
     		int result =-1;
 			try {

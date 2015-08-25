@@ -7,7 +7,6 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
-
 import by.exeption.DaoPropertyUtilExeption;
 
 

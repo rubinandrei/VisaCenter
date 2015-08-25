@@ -2,20 +2,17 @@ package by.dao;
 
 
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.io.IOException;
 
 import org.apache.log4j.Logger;
 
 import by.dbconection.MySQLconnection;
 import by.exeption.DaoPropertyUtilExeption;
 import by.exeption.DeclarPassportDaoExeption;
-import by.exeption.RegistrFormExeption;
 import by.exeption.SystemUserDaoExeption;
 import by.model.SystemUsers;
 
@@ -28,7 +25,7 @@ public class SystemUserDaoImpl extends AbstractDaoImpl<SystemUsers>  implements 
     private SystemUserDaoImpl()  {
     	super();
 		try {			
-			conn = (Connection)  MySQLconnection.getConnection();			
+			conn = MySQLconnection.getConnection();			
 		} catch (ClassNotFoundException e) {
 			LOG.error("Class not Found");
 		}
@@ -145,7 +142,8 @@ public class SystemUserDaoImpl extends AbstractDaoImpl<SystemUsers>  implements 
     	
     }
     
-    public synchronized int deleteRecord(int id) throws SystemUserDaoExeption  {
+    @Override
+	public synchronized int deleteRecord(int id) throws SystemUserDaoExeption  {
             int result =0;  
     		String query;
 			try {

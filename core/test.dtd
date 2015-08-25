@@ -1,0 +1,70 @@
+<!ELEMENT dataset (
+    availablereg*,
+    declarpassport*,
+    regisrtform*,
+    systemusers*,
+    visa*,
+    visa_type*)>
+
+<!ELEMENT availablereg EMPTY>
+<!ATTLIST availablereg
+    ar_id CDATA #REQUIRED
+    ar_count CDATA #IMPLIED
+    ar_day CDATA #IMPLIED
+    status CDATA #IMPLIED
+>
+
+<!ELEMENT declarpassport EMPTY>
+<!ATTLIST declarpassport
+    dp_id CDATA #REQUIRED
+    dp_first_name CDATA #REQUIRED
+    dp_second_name CDATA #REQUIRED
+    dp_passport_nb CDATA #REQUIRED
+    dp_date_birth CDATA #REQUIRED
+    dp_passport_valid_data CDATA #REQUIRED
+    dp_passport_indent_nb CDATA #REQUIRED
+>
+
+<!ELEMENT regisrtform EMPTY>
+<!ATTLIST regisrtform
+    rf_id CDATA #REQUIRED
+    rf_datareg CDATA #REQUIRED
+    rt_visatype CDATA #REQUIRED
+    rf_declarant_email CDATA #IMPLIED
+    rf_declarant_password CDATA #IMPLIED
+    rf_status CDATA #REQUIRED
+    rf_declarant_passpord CDATA #REQUIRED
+>
+
+<!ELEMENT systemusers EMPTY>
+<!ATTLIST systemusers
+    su_id CDATA #REQUIRED
+    su_login CDATA #IMPLIED
+    su_password CDATA #IMPLIED
+    su_admintyp CDATA #IMPLIED
+>
+
+<!ELEMENT visa EMPTY>
+<!ATTLIST visa
+    visa_id CDATA #REQUIRED
+    visa_declarpassword_id CDATA #REQUIRED
+    visa_do_from CDATA #REQUIRED
+    visa_do_until CDATA #REQUIRED
+    visa_type_id CDATA #REQUIRED
+    visa_date CDATA #REQUIRED
+    visa_nb_entires CDATA #REQUIRED
+    visa_duration_stay CDATA #REQUIRED
+>
+
+<!ELEMENT visa_type EMPTY>
+<!ATTLIST visa_type
+    vt_id CDATA #REQUIRED
+    vt_name CDATA #REQUIRED
+    vt_actionday_count CDATA #REQUIRED
+    vt_status CDATA #REQUIRED
+    vt_terminated_time CDATA #IMPLIED
+    vt_cost CDATA #IMPLIED
+    vt_action_type CDATA #REQUIRED
+    vt_short_name CDATA #REQUIRED
+>
+

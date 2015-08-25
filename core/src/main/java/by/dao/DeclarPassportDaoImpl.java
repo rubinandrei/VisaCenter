@@ -1,7 +1,6 @@
 package by.dao;
 
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,7 @@ public class DeclarPassportDaoImpl extends AbstractDaoImpl<DeclarPassport> imple
     private DeclarPassportDaoImpl() {
 		super();
 		try {
-			conn =  (Connection) MySQLconnection.getConnection();
+			conn =  MySQLconnection.getConnection();
 		} catch (ClassNotFoundException e) {
 			LOG.error("Class not Found");
 		}	

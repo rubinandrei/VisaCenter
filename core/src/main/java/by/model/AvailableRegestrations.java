@@ -1,7 +1,6 @@
 package by.model;
 
 import java.io.Serializable;
-import by.model.FieldName;
 public class AvailableRegestrations 
 	extends AbstractModelImpl implements Serializable,Cloneable{
 
@@ -46,6 +45,7 @@ public class AvailableRegestrations
 		}
 	
 	
+		@Override
 		public Object[] getAll() {	
 			return getValues(
 			getAr_count()

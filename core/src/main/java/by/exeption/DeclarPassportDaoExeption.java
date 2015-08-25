@@ -1,7 +1,5 @@
 package by.exeption;
 
-import org.apache.log4j.Logger;
-
 public class DeclarPassportDaoExeption extends Exception{
 
 	private static final long serialVersionUID = 4295902807685941276L;

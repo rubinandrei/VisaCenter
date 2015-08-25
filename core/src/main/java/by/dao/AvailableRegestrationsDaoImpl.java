@@ -1,9 +1,7 @@
 package by.dao;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
@@ -15,6 +13,9 @@ import by.dbconection.MySQLconnection;
 import by.exeption.AvailableRegestrationsExeption;
 import by.exeption.DaoPropertyUtilExeption;
 import by.exeption.DeclarPassportDaoExeption;
+import by.exeption.RegistrFormExeption;
+import by.exeption.SystemUserDaoExeption;
+import by.exeption.VisaTypeDaoExeption;
 import by.model.AvailableRegestrations;
 
 
@@ -26,7 +27,7 @@ public  class AvailableRegestrationsDaoImpl  extends AbstractDaoImpl<AvailableRe
 	
 	private AvailableRegestrationsDaoImpl() throws ClassNotFoundException {
 		super();
-		conn = (Connection)  MySQLconnection.getConnection();	
+		conn = MySQLconnection.getConnection();	
 		
 	}
 
@@ -127,9 +128,9 @@ public  class AvailableRegestrationsDaoImpl  extends AbstractDaoImpl<AvailableRe
 	}
 
 	@Override
-	public synchronized Set<Integer> saveRecord(List<AvailableRegestrations> availableRegestrations ) throws AvailableRegestrationsExeption {
+	public synchronized int saveRecord(AvailableRegestrations availableRegestrations ) throws AvailableRegestrationsExeption {
 		String query;
-		Set<Integer> result = new HashSet<Integer>()  ;
+		int result=0 ;
 		try {
 			query = DaoStatment.daoINSERT.getStatment("dbsvript/"+propSqlFolder, "insert.AvalibleCountDay");
 			result = add(query, availableRegestrations);
@@ -144,7 +145,7 @@ public  class AvailableRegestrationsDaoImpl  extends AbstractDaoImpl<AvailableRe
 	}
 
 	@Override
-	public synchronized int  deleteRecord(Object... keys) throws AvailableRegestrationsExeption {
+	public synchronized int deleteRecord(Object... keys) throws AvailableRegestrationsExeption {
 		int result =-1;
 		String query;	
 		try {			
@@ -182,17 +183,21 @@ public  class AvailableRegestrationsDaoImpl  extends AbstractDaoImpl<AvailableRe
          return availableRegestrationsDao;
      }
 
+
+
 	@Override
-	public int saveRecord(AvailableRegestrations t)
-			throws DeclarPassportDaoExeption {
+	public synchronized int deleteRecord(int id) throws DeclarPassportDaoExeption {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int deleteRecord(int id) throws DeclarPassportDaoExeption {
+	public synchronized Set<Integer> saveRecord(List<AvailableRegestrations> listRegistrForm)
+			throws DaoPropertyUtilExeption, SystemUserDaoExeption,
+			DeclarPassportDaoExeption, RegistrFormExeption,
+			VisaTypeDaoExeption, AvailableRegestrationsExeption {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}	 
 	 
 }

@@ -1,0 +1,5 @@
+<dataset>
+  <availablereg ar_id="1" ar_count="40" ar_day="2015-08-03" status/>
+  <availablereg ar_id="2" ar_count="50" ar_day="2015-08-04" status/>
+  <availablereg ar_id="3" ar_count="60" ar_day="2015-08-05" status/>
+</dataset>

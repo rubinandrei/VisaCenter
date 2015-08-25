@@ -1,12 +1,8 @@
 package by.dao;
 
-import by.model.FieldName;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,12 +16,8 @@ import java.util.Set;
 import org.apache.commons.lang3.Validate;
 import org.apache.log4j.Logger;
 
-
-
-import org.omg.Dynamic.Parameter;
-
-import by.dbconection.MySQLconnection;
 import by.model.AbstractModelImpl;
+import by.model.FieldName;
 
 
 

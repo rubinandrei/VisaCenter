@@ -1,1 +1,0 @@
-Delete.byID = DELETE FROM visa_type Where vt_id =?;
