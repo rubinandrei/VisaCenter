@@ -1,4 +1,4 @@
-package org.aps;
+package org.aps.negative;
 
 import static org.junit.Assert.assertTrue;
 
@@ -8,30 +8,28 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.apache.log4j.Logger;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JUnit4Mockery;
+
 import org.jmock.integration.junit4.JUnitRuleMockery;
-import org.jmock.lib.legacy.ClassImposteriser;
+
 import org.junit.Before;
-import org.junit.Ignore;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
+
 import org.mockito.runners.MockitoJUnitRunner;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
-import sun.rmi.runtime.Log;
+
+
 import by.dao.AvailableRegestrationsDaoImpl;
 import by.dao.DeclarPassportDaoImpl;
-import by.dao.GenericDao;
+
 import by.dao.RegistrFormDaoImpl;
-import by.exeption.DeclarPassportDaoExeption;
-import by.exeption.RegistrFormExeption;
+
+
 import by.exeption.RegistrationFormServiceExeption;
 import by.model.DeclarPassport;
 import by.model.RegistrForm;
@@ -42,7 +40,7 @@ import by.services.RegistrationFormService;
 @PrepareForTest({RegistrFormDaoImpl.class,RegistrationFormService.class})
 
 
-public class RegestrationFormTest {
+public class NegativeRegestrationFormServicesTest {
 	@InjectMocks
 	RegistrationFormService testService = new RegistrationFormService();
 	@Mock
@@ -52,7 +50,7 @@ public class RegestrationFormTest {
 	@Mock
 	DeclarPassportDaoImpl declarPassportDaomock;
 	
-    private static final Logger LOG = Logger.getLogger(RegestrationFormTest.class);
+    private static final Logger LOG = Logger.getLogger(NegativeRegestrationFormServicesTest.class);
 //	private final RegistrFormDaoImpl mockdao = PowerMockito.mock(RegistrFormDaoImpl.class);
 	
     //private final RegistrationFormService testService = new RegistrationFormService();
@@ -126,40 +124,9 @@ public void setUp() throws Exception {
 		checkPassportList.add(declarPassword);
 	
 }
-
-
+  
    
-    @Test
-    public void saveRegestrationFormTest() throws Exception   {    	
-    	final int keys =1;
-    	PowerMockito.doReturn(listRegistrForm).when(mockdao).getRecord(1);
-    	List<RegistrForm> serviceRegisterForm = testService.getDataById(listRegistrForm.get(0).getRf_id());
-    	LOG.info(serviceRegisterForm.get(0).toString());
-          assertTrue("Chesk registation Visa Form ",serviceRegisterForm.equals(listRegistrForm));
-    }
-    
-    @Test
-    public void updateRegestrationFormTest() throws Exception {
-    	final int keys =1;
-    	listRegistrForm.get(0).setRf_declarant_email("newEmail@test.com");    	
-    	PowerMockito.doReturn(listRegistrForm).when(mockdao).getRecord(1);    	
-    	PowerMockito.when(mockdao.updateRecord(listRegistrForm)).thenReturn(keys); 
-    	PowerMockito.doReturn(checkPassportList).when(declarPassportDaomock).getRecordbyPassportNamber(listRegistrForm.get(0).getDp_passport_nb());
-    	LOG.info("expected old listRegistrForm email" + testService.updateData(listRegistrForm).get(0).toString());
-        Assert.assertTrue(testService.updateData(listRegistrForm).get(0).getRf_declarant_email().equals(listRegistrForm.get(0).getRf_declarant_email()));
-    }
-
-    @Test    
-     public void deleteRegestrationFormTest() throws Exception {
-    	final int value=listRegistrForm.get(0).getRf_id();    
-    	PowerMockito.when(mockdao.deleteRecord(value)).thenReturn(1);    	    	
-    	chackList = testService.deleteData(listRegistrForm);
-    	LOG.info(listRegistrForm.size());
-    	Assert.assertTrue(chackList.isEmpty());
-    	
-    	
-    }
-    
+  
     @Test (expected = RegistrationFormServiceExeption.class)
     public void deleteRegestrationFormTestExceptionthrows() throws Exception{
     	final int value=listRegistrForm.get(0).getRf_id();    
@@ -191,29 +158,30 @@ public void setUp() throws Exception {
     }
     
     @Test (expected = RegistrationFormServiceExeption.class)
-    public void updateRegestrationTestExceptionthrowsbypassword() throws Exception{
+    public void updateRegestrationTestExceptionThrowsbypassword() throws Exception{
     	final int value= -1;    
     	
     	PowerMockito.doReturn(checkPassportList).when(declarPassportDaomock).getRecordbyPassportNamber(listRegistrForm.get(0).getDp_passport_nb());
     	PowerMockito.when(declarPassportDaomock.updateRecord(listRegistrForm.get(0).getDp_first_name(),
-    			listRegistrForm.get(0).getDp_second_name(),
-    			listRegistrForm.get(0).getDp_passport_nb(),
-    			listRegistrForm.get(0).getDp_date_birth(),
-    			listRegistrForm.get(0).getDp_passport_valid_data(),
-    			listRegistrForm.get(0).getDp_passport_indent_nb(),
-    			listRegistrForm.get(0).getDp_id())).thenReturn(0);  	
+    		                                                 listRegistrForm.get(0).getDp_second_name(),
+    		                                                 listRegistrForm.get(0).getDp_passport_nb(),
+    		                                                 listRegistrForm.get(0).getDp_date_birth(),
+    		                                                 listRegistrForm.get(0).getDp_passport_valid_data(),
+    		                                                 listRegistrForm.get(0).getDp_passport_indent_nb(),
+    		                                                 listRegistrForm.get(0).getDp_id())).thenReturn(0);  	
     	
     	 	
     	testService.updateData(listRegistrForm);
     	
     }
     @Test (expected = RegistrationFormServiceExeption.class)
-    public void saveRegestrationFormTestException() throws Exception   {    	
-    	final int keys =-1;
-    	PowerMockito.doReturn(listRegistrForm).when(mockdao).getRecord(1);
-    	List<RegistrForm> serviceRegisterForm = testService.getDataById(listRegistrForm.get(0).getRf_id());
-    	LOG.info(serviceRegisterForm.get(0).toString());
-          assertTrue("Chesk registation Visa Form ",serviceRegisterForm.equals(listRegistrForm));
+    public void getDataByPasswordExeption() throws Exception   {    	
+    final int keys =-1;
+    final List<RegistrForm> registrForm = new ArrayList<RegistrForm>();    	 
+    PowerMockito.doReturn(registrForm).when(mockdao).getCustomRecord("", listRegistrForm.get(0).getRf_declarant_email()+"12345",listRegistrForm.get(0).getRf_declarant_email());    	
+    List<RegistrForm> serviceRegisterForm = testService.getDataByPassword(listRegistrForm.get(0).getRf_declarant_email()+"12345",listRegistrForm.get(0).getRf_declarant_email());   
+          
     }
-}
+      
+ }
 

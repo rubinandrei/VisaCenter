@@ -61,18 +61,15 @@ public class RegistrationFormService {
 	public List<RegistrForm> getDataByPassword(Object ... keys) throws RegistrationFormServiceExeption{
 		LOG.debug("start getinfo  info :" + keys.toString() );
 		List<RegistrForm> registrForm = new ArrayList<RegistrForm>();
-		for(Object key:keys){
-			
 				try {
-					LOG.debug(regFormDAO.getCustomRecord("", key).get(0).toString());
-					registrForm.add(regFormDAO.getCustomRecord("", key).get(0));
+					//LOG.debug(regFormDAO.getCustomRecord("", keys).get(0).toString());
+					registrForm = regFormDAO.getCustomRecord("", keys);
 				} catch (DaoPropertyUtilExeption e) {
 					LOG.error(e);
 				} catch (RegistrFormExeption e) {
 					// TODO Auto-generated catch block
 					LOG.error(e);
 				}	
-		}
 			if(registrForm.isEmpty()){
 				LOG.error("ERROR!: getDataByPassword: does information about registration not saved");
 				throw new RegistrationFormServiceExeption("getDataByPassword: does information about registration  not saved ");
@@ -80,11 +77,11 @@ public class RegistrationFormService {
 		return registrForm;
 	}
 	
-	public int savePassword(RegistrForm regform) throws RegistrationFormServiceExeption{		
+	public int savePasspord(RegistrForm regform) throws RegistrationFormServiceExeption{		
 		int result = 0;
-		Object[] password = regform.getForPassword();
+		Object[] password = regform.getForPasspord();
 		try {
-			declarPassportDAO.saveCustomRecord("",password);
+			result = declarPassportDAO.saveCustomRecord("",password);
 		} catch (DeclarPassportDaoExeption e) {
 			LOG.error("ERROR!: savePassword: does information about password is not saved"+ e.getMessage());			
 		}
@@ -92,7 +89,7 @@ public class RegistrationFormService {
 	}
 	public int updatePassword(RegistrForm regform) throws RegistrationFormServiceExeption{		
 		int result = 0;
-		Object[] password = regform.getForPassword();	
+		Object[] password = regform.getForPasspord();	
 		try {
 			result = declarPassportDAO.updateRecord(password);
 		} catch (DeclarPassportDaoExeption e) {
@@ -102,11 +99,24 @@ public class RegistrationFormService {
 	}
 	
 	
-	
+	public int savRegForm(RegistrForm regform){
+		Integer result = null;
+		if(regform != null){
+			try {
+				result = regFormDAO.saveRecord(regform);
+			} catch (RegistrFormExeption e) {
+				LOG.error("ERROR!: savRegForm: does information about password is not saved" + e.getMessage());
+			}
+		}
+		return result;
+		
+		
+	}
 	
 	public List<RegistrForm> saveData(List<RegistrForm> registrForm) throws RegistrationFormServiceExeption{
 		int status;
 		int passwordId=0;
+		Integer savedregformID = null;
 		List<RegistrForm> savedList = new ArrayList<RegistrForm>();
 		Set <Integer> saveresults= new HashSet<Integer>();		
 		try {			
@@ -115,7 +125,7 @@ public class RegistrationFormService {
 			for(RegistrForm regform: registrForm){		 
 				passport = declarPassportDAO.getRecordbyPassportNamber(regform.getDp_passport_nb());					
 				if(passport.isEmpty()){
-					passwordId = savePassword(regform);
+					passwordId = savePasspord(regform);
 					if(passwordId > 0){
 						regform.setDp_id(passwordId);
 					}else{
@@ -123,16 +133,14 @@ public class RegistrationFormService {
 						throw new RegistrationFormServiceExeption("ERROR!: does information about regestation password  not saved ");				      
 					}						  
 				}				  
-				if (avalibledayDAO.getRecord(regform.getRf_datareg()).get(0).getAr_count()>0){
-						avalibledayDAO.updateByRegistarion(1,regform.getRf_datareg());
-						status = 1;					
-				}else{
-						status = 0;
-			    }
-			 saveresults.add(regFormDAO.saveCustomRecord("",regform.getVt_id()							                  
-			                                              ,regform.getRf_declarant_email()
-				                                          ,regform.getRf_declarant_password()+regform.getRf_declarant_email()
-				                                          ,regform.getDp_id()>0? regform.getDp_id():passport.get(0).getDp_id(),status));
+                 				
+			     savedregformID = savRegForm(regform);
+			     if(savedregformID == null || savedregformID.equals(0)){
+			    		LOG.error("ERROR!: does information about registration not saved" + regform.toString());
+						throw new RegistrationFormServiceExeption("does information about registration  not saved ");     
+			     }else{
+			    	 saveresults.add(savedregformID);
+			     }
 					    	  
 			}
 			if(saveresults.isEmpty()){
@@ -145,12 +153,6 @@ public class RegistrationFormService {
 			
 		} catch (DeclarPassportDaoExeption e) {
 			LOG.error(e,e.fillInStackTrace());			
-		} catch (DaoPropertyUtilExeption e) {
-			LOG.error(e,e.fillInStackTrace());
-		} catch (RegistrFormExeption e) {
-			LOG.error(e,e.fillInStackTrace());
-		} catch (AvailableRegestrationsExeption e) {
-			LOG.error(e,e.fillInStackTrace());
 		}	
 	   	return 	savedList;
 	}
@@ -161,10 +163,9 @@ public class RegistrationFormService {
 		int passwordId =0;
 		try {			
 		for(RegistrForm regform:registrForm){			
-		  passport = declarPassportDAO.getRecordbyPassportNamber(regform.getDp_passport_nb());
-		 
+		  passport = declarPassportDAO.getRecordbyPassportNamber(regform.getDp_passport_nb());		 
 		  if(passport.isEmpty()){						 
-			  passwordId = savePassword(regform);
+			  passwordId = savePasspord(regform);
 			  if(passwordId > 0){
 				regform.setDp_id(passwordId);
 			  }else{
@@ -174,10 +175,10 @@ public class RegistrationFormService {
 				
 			
 		  }else{
-			  if(updatePassword(regform)>0);
+			  passwordId = updatePassword(regform);
 		  }
 		  		
-		  		if(regFormDAO.updateRecord(regform.getRf_datareg(),regform.getVt_id(),regform.getRf_status(),regform.getDp_id(),regform.getRf_declarant_email(),regform.getRf_id())>0){
+		 if(regFormDAO.updateRecord(regform.getForUpdate())>0){
 		  		updatesults.add(regform.getRf_id());
 		  		}else{
 		  			LOG.error("ERROR!: does information about registration not saved");
@@ -228,7 +229,10 @@ public class RegistrationFormService {
 	        }
 	        
 	    }
-		return listForm;
+	    for(RegistrForm registrForm: listForm){	    	
+	    	listRegistrForm.remove(registrForm);
+	    }
+		return listRegistrForm;
 	}
 
 }

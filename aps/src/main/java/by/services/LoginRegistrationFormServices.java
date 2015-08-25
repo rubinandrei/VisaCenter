@@ -3,6 +3,8 @@ package by.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.apache.log4j.Logger;
 
 import by.dao.RegistrFormDaoImpl;
@@ -10,10 +12,11 @@ import by.exeption.DaoPropertyUtilExeption;
 import by.exeption.LoginServicesExeption;
 import by.exeption.RegistrFormExeption;
 import by.model.RegistrForm;
-import by.model.SystemUsers;
+
 
 public class LoginRegistrationFormServices implements LoginService<RegistrForm>{	
 	
+	@Resource
 	RegistrFormDaoImpl regForm =RegistrFormDaoImpl.getRegistrFormDao();
 	
 	public LoginRegistrationFormServices() {

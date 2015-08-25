@@ -7,6 +7,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.apache.log4j.Logger;
 
 import sun.util.resources.CalendarData;
@@ -17,13 +19,15 @@ import by.model.AvailableRegestrations;
 
 public class AvalibleRegestrationServices {	
 	private static final Logger LOG = Logger.getLogger(AvalibleRegestrationServices.class);
-	AvailableRegestrationsDaoImpl availableRegestration;
+	@Resource
+	private AvailableRegestrationsDaoImpl availableRegestration;
 	
 	public AvalibleRegestrationServices(){		
 			availableRegestration = AvailableRegestrationsDaoImpl.getAvailableRegestrationsDao();	
    }
 	
    public List<AvailableRegestrations> getAvalibleDadesNow(){
+	   
 	   List<AvailableRegestrations> listRegestration = new ArrayList<AvailableRegestrations>();
 	   DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 	   Date date = new Date();
@@ -39,43 +43,53 @@ public class AvalibleRegestrationServices {
 	   }
 	   return listRegestration;	   
    }
-   public void deleteAvalibleDades(List<AvailableRegestrations> Dates) throws AvalibleRegestrationServicesExeption{
-
-	   for(AvailableRegestrations date:Dates)
-	   try {		   
-		   if(availableRegestration.deleteRecord(date)==-1){
+   public List<AvailableRegestrations> deleteAvalibleDades(List<AvailableRegestrations> Dates) throws AvalibleRegestrationServicesExeption{
+        Integer result = 0; 
+        List<AvailableRegestrations> list = new ArrayList<AvailableRegestrations>();
+       for (AvailableRegestrations registration: Dates){
+    	   try {		   
+    		   result = availableRegestration.deleteRecord(registration.getAr_day());
+    		   if(result < 1){			 
+    			   list.add(registration);
+    		   }
+		   
+	   		} catch (AvailableRegestrationsExeption e) {
+	   			LOG.error(e.getMessage(),e.fillInStackTrace());
+	   		}
+       }
+	   return list;
+   }
+   public  List<AvailableRegestrations> updateAvalibleDades(List<AvailableRegestrations> Dates) throws AvalibleRegestrationServicesExeption{
+	   List<AvailableRegestrations> list = new ArrayList<AvailableRegestrations>();
+	   Integer result;
+	   for(AvailableRegestrations date:Dates){
+		   try {	
+			   result = availableRegestration.updateRecord(date.getAr_count(),date.getAr_id());		   
+			   if(result >0)
+				   list.add(date);	
+		  
+		   } catch (AvailableRegestrationsExeption e) {
+			   LOG.error(e.getMessage(),e.fillInStackTrace());
+		   }
+	   }
+	   if(!list.equals(Dates)){
 			   LOG.info("ERROR!: Incorrect delete Available Regestrations");
 			   throw new AvalibleRegestrationServicesExeption("Incorrect delete Available Regestrations");
-		   }
-	   } catch (AvailableRegestrationsExeption e) {
-		   LOG.error(e.getMessage(),e.fillInStackTrace());
 	   }
+	   return list;		    
 	   
    }
-   public void updateAvalibleDades(List<AvailableRegestrations> Dates) throws AvalibleRegestrationServicesExeption{
-
+   public List<AvailableRegestrations> addAvalibleDades(List<AvailableRegestrations> Dates) throws AvalibleRegestrationServicesExeption{
+       int id;  
 	   for(AvailableRegestrations date:Dates)
 	   try {		   
-		   if(availableRegestration.updateRecord(date.getAr_count(),date.getAr_day())==-1){
-			   LOG.info("ERROR!: Incorrect delete Available Regestrations");
-			   throw new AvalibleRegestrationServicesExeption("Incorrect delete Available Regestrations");
-		   }
-	   } catch (AvailableRegestrationsExeption e) {
+		   id = availableRegestration.saveRecord(date);
+		   if(id>0)
+			   date.setAr_id(id);			
+		   } catch (AvailableRegestrationsExeption e) {
 		   LOG.error(e.getMessage(),e.fillInStackTrace());
 	   }
-	   
-   }
-   public void addAvalibleDades(List<AvailableRegestrations> Dates) throws AvalibleRegestrationServicesExeption{
-
-	   for(AvailableRegestrations date:Dates)
-	   try {		   
-		   if(availableRegestration.saveRecord(Dates).size()<1){
-			   LOG.info("ERROR!: Incorrect delete Available Regestrations");
-			   throw new AvalibleRegestrationServicesExeption("Incorrect delete Available Regestrations");
-		   }
-	   } catch (AvailableRegestrationsExeption e) {
-		   LOG.error(e.getMessage(),e.fillInStackTrace());
-	   }
+	   return Dates;
 	   
    }
 

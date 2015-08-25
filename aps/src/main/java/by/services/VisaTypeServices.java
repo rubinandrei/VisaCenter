@@ -130,11 +130,7 @@ public class VisaTypeServices {
 		} catch (VisaTypeDaoExeption e) {
 			LOG.error(e.getMessage(),e.fillInStackTrace());	    	
 			
-		}		
-		
-		
+		}	
 		return getActualVisaTypeList();
-		
-		
 	}
 }
