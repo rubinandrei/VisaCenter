@@ -1,0 +1,2 @@
+Ubdate.all = UPDATE declarpassport SET dp_first_name =?,dp_second_name=?,dp_date_birth= date(?),dp_passport_nb = ?,dp_passport_indent_nb =?,dp_passport_valid_data = date(?) WHERE dp_id = ?;
+                                       

@@ -1,27 +1,142 @@
 <?xml version="1.0"?>
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">      
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>itacademy.visacenter</groupId>
     <artifactId>visacenter</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-  </parent>
+  </parent>    
   <groupId>itacademy.visacenter.beckend</groupId>
   <artifactId>aps</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>aps</name>
-  <url>http://maven.apache.org</url>
+  <packaging>jar</packaging>
+  <url>http://maven.apache.org</url> 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+  </properties> 
   <dependencies>
+    <dependency>
+  <groupId>itacademy.visacenter.beckend</groupId>
+  <artifactId>core</artifactId>  
+  <version>1.0-SNAPSHOT</version>
+  </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>4.11</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>1.6.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>1.6.2</version>
+            <scope>test</scope>
+        </dependency>
+     <dependency>
+  		<groupId>org.mockito</groupId>
+  		<artifactId>mockito-core</artifactId>
+  		<version>RELEASE</version>
+           <scope>test</scope>
+        </dependency>
+    <dependency>
+		<groupId>org.jmock</groupId>
+		<artifactId>jmock-junit4</artifactId>
+		<version>2.8.1</version>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.jmock</groupId>
+		<artifactId>jmock-legacy</artifactId>
+		<version>2.6.0</version>
+		<scope>test</scope>
+	</dependency>
+    
+     <dependency>
+    	<groupId>javax.servlet</groupId><!--$NO-MVN-MAN-VER$-->
+    	<artifactId>javax.servlet-api</artifactId>
+  		<version>3.1.0</version>
+  		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>log4j</groupId>
+		<artifactId>log4j</artifactId>
+		<version>1.2.17</version>
+	</dependency>
   </dependencies>
-  <packaging>war</packaging>
+  <dependencyManagement>
+  <dependencies>
+  		<dependency>
+  			 <groupId>itacademy.visacenter.beckend</groupId>
+  			<artifactId>core</artifactId>  
+  			<version>1.0-SNAPSHOT</version>
+		        <type>pom</type>
+		        <scope>import</scope>
+  		</dependency>
+  </dependencies>  		
+  </dependencyManagement>
+  <build> 
+   <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+         <version>2.6</version>
+           <configuration>
+          <archive>
+            <manifest>
+            	<addClasspath>true</addClasspath>
+             	 <classpathPrefix>lib/</classpathPrefix>
+              <mainClass></mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classifier>jar</classifier>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+     <artifactId>maven-compiler-plugin</artifactId>
+      <version>3.3</version>
+    <configuration>
+    <encoding>utf-8</encoding>
+    <source>1.6</source>
+    <target>1.6</target>
+    </configuration>
+    </plugin>	
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+             <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                              ${project.build.directory}/lib
+                            </outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+  </plugins>
+  </build> 
 </project>

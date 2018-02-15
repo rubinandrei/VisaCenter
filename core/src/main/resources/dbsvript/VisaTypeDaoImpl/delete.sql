@@ -1,0 +1,1 @@
+Delete.byID = UPDATE visa_type SET vt_terminated_time = date(now()) WHERE vt_id = ?;
